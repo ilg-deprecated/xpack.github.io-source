@@ -9,7 +9,21 @@ date: 2017-10-01 15:34:00 +0300
 
 ---
 
-TBD
+## Mission statement
+
+Provide a set of tools to configure and build complex, package based, multi-variant (multi-architecture, multi-board, multi-toolchain) C/C++ projects.
+
+## xPacks overview
+
+**xPacks** are general purpose software C/C++ packages, intended to enhance code sharing and reusing during the development of C/C++ libraries and applications, much the same as [npm modules](https://docs.npmjs.com/getting-started/what-is-npm) do so nicely in the JavaScript ecosystem.
+
+## xPack tools
+
+The main xPack tools are:
+
+* [xpm]({{ site.baseurl }}/xpm/) - the package manager
+* [xmake]({{ site.baseurl }}/xmake/) - the package builder
+* [xcdl]({{ site.baseurl }}/xcdl/) - the component & configuration framework
 
 ## License
 

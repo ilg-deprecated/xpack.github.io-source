@@ -3,7 +3,7 @@
 # Without a clear rule enforced, both title and name are used.
 title: xPack
 name: xPack
-description: The extended packages management tools 
+description: Tools to manage, configure and build complex, package based, multi-target C/C++ projects. 
 motto: “Perfekt ist nicht gut genug”
 icon: components.png
 

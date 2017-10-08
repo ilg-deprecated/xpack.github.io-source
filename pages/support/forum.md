@@ -13,7 +13,7 @@ date: 2015-09-12 13:43:00 +0300
 
 A dedicated [user discussions forum](https://www.element14.com/community/groups/gnu-arm-eclipse) was created on the [element14 Community server](https://www.element14.com/community/welcome).
 
-![GNU MCU Eclipse forum]({{ site.baseurl }}/assets/images/2016/forum-overview.png)
+![GNU MCU Eclipse forum]({{ site.baseurl }}/assets/images/2017/forum-overview.png)
 
 ## Goals
 
@@ -43,7 +43,7 @@ Unfortunately the Jive powered server currently has no support for markdown, so 
 
 The GNU MCU Eclipse Group is also home for discussions related to other sub-projects, like xPacks.
 
-![GNU MCU Eclipse categories]({{ site.baseurl }}/assets/images/2016/forum-categories.png)
+![GNU MCU Eclipse categories]({{ site.baseurl }}/assets/images/2017/forum-categories.png)
 
 Please be sure you select the **xPack** category.
 
