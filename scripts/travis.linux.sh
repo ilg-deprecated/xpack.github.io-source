@@ -91,13 +91,13 @@ function do_script() {
 
   do_run ls -lL "${site}"
 
-  echo "${TRAVIS_COMMIT_MESSAGE}"
+  echo -e "${TRAVIS_COMMIT_MESSAGE}"
 
   # Validate images and links (internal & external).
-  if echo "${TRAVIS_COMMIT_MESSAGE}" | grep -v -e '\[skip proof\]'
+  if echo -e "${TRAVIS_COMMIT_MESSAGE}" | grep -v -e '\[skip proof\]'
   then
     do_run bundle exec htmlproofer --only-4xx \
-      --url-ignore="/reference/cmsis-plus/,/pt/,https://jekyllrb.com,http://developer.apple.com/downloads/,https://developer.apple.com/downloads/,http://kramdown.gettalong.org/syntax.html,https://www.element14.com/community/.*" \
+      --url-ignore="" \
       "${site}"
   fi
 
