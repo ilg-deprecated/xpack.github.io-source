@@ -91,6 +91,8 @@ function do_script() {
 
   do_run ls -lL "${site}"
 
+  echo "${TRAVIS_COMMIT_MESSAGE}"
+
   # Validate images and links (internal & external).
   if echo "${TRAVIS_COMMIT_MESSAGE}" | grep -v -e '\[skip proof\]'
   then
