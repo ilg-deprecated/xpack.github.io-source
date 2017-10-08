@@ -11,7 +11,7 @@ date: 2017-10-01 15:34:00 +0300
 
 ## Mission statement
 
-Provide a set of tools to configure and build complex, package based, multi-variant (multi-architecture, multi-board, multi-toolchain) C/C++ projects.
+Provide a set of tools to manage, configure and build complex, package based, multi-variant (multi-architecture, multi-board, multi-toolchain) C/C++ projects.
 
 ## xPacks overview
 
