@@ -27,7 +27,6 @@ export slug="${TRAVIS_BUILD_DIR}-full"
 # -----------------------------------------------------------------------------
 
 export site="${HOME}/out/${GITHUB_DEST_REPO}"
-export doxy="${build}${GITHUB_DOXY_REPO}"
 
 # -----------------------------------------------------------------------------
 
@@ -52,18 +51,6 @@ function do_before_install() {
   do_run gem install html-proofer
   do_run htmlproofer --version
 
-  # http://packages.ubuntu.com/trusty-updates/
-  # Install libclang, it is needed by doxygen.
-  do_run sudo apt-get --yes --quiet --target-release trusty-backports install libclang1-3.8
-
-  # https://launchpad.net/ubuntu/+source/doxygen
-  # Install a newer doxygen from launchpad binaries.
-  doxy_deb=doxygen_1.8.11-3_amd64.deb
-  mkdir -p ${HOME}/downloads
-  do_run curl -L --silent https://launchpad.net/ubuntu/+archive/primary/+files/${doxy_deb} -o ${HOME}/downloads/${doxy_deb}
-  do_run sudo dpkg -i ${HOME}/downloads/${doxy_deb}
-  do_run doxygen --version
-
   return 0
 }
 
@@ -87,9 +74,6 @@ function do_before_script() {
 
   # Bring in the destination repository. 
   do_run git clone --branch=master https://github.com/${GITHUB_DEST_REPO}.git "${site}"
-
-  # Bring in the µOS++ sources, for the Doxygen input.
-  do_run git clone --branch=xpack --depth=1 https://github.com/${GITHUB_DOXY_REPO}.git "${doxy}"
 
   return 0
 }
@@ -130,14 +114,6 @@ function do_script() {
     echo "A pull request, skip deploy."
     return 0
   fi
-
-  # Create the doxygen reference pages.
-  cd "${doxy}/doxygen"
-  export DOXYGEN_OUTPUT_DIRECTORY="${site}/reference"
-  export DOXYGEN_STRIP_FROM_PATH="${doxy}"
-
-  do_run doxygen config-travis.doxyfile
-  do_run ls -l "${DOXYGEN_OUTPUT_DIRECTORY}"
 
   # Check if any changes.
   cd "${site}"
