@@ -1,0 +1,70 @@
+# Travis CI configuration file to validate and deploy 
+# the µOS++ Jekyll site.
+
+# To skip a CI build, add [skip ci] anywhere in the commit message.
+
+# Use the new Debian 14 containers.
+dist: trusty
+sudo: true
+
+language: ruby
+rvm:
+  - 2.3.1
+  
+env:
+  global:
+    - GITHUB_DEST_REPO="xpack/xpack.github.io"
+    - GIT_COMMIT_USER_EMAIL="ilg@livius.net"
+    - GIT_COMMIT_USER_NAME="Travis CI"
+    - NOKOGIRI_USE_SYSTEM_LIBRARIES=true
+    # The secure token is 'GITHUB_TOKEN=...' and was generated with:
+    # $ travis encrypt -r xpack/xpack.github.io-source GITHUB_TOKEN=...
+    - secure: "hF67OpmOJCePScLtwbehZTWVa/YuTN1a2nNnpoiUV00YU4jXBHNdfYDZWDu66PtHWeD/mNWLy3oL6+Rew2N4NoZIoRmeRgcUmKBJ/myBCITQPUK5dB/NlgxeJjMzC42yx46fJGOqs6WPzOE2ANC4gW9j9gt4CiL0O7EDexyHfZUQhdnlYTTfWIAt1nnjMBF8zJuFqWkJzV/WjOOlbCdFT4D6lD2U1wYE662zq2iWRIEBIN2yKCd0sgetSkQAgW75NouEdnQlO6psSg6SXj09LGbBOBy/7u+XOpcpwd0dqDIWebiOPYZBP1kxIJH3jN94PAS5ybTs/7JcJmkB7NCVVP4ODoncT0zXs47zcHC/5tUcpGW9pyABElwGUzYR1EO6EowxHVfJt4nSSyQaFwqN+sYYifdnMqTm7TGKfFt/Lcy/7I/VeSh1E9TJ855XT2kow1YbWtoY2IINFK7kZBcuCdNlk5Lv3vOxYJv8YBmlXPS4BIRzbMjbdqqUfG4+pmLdFUez+0KjYTbJc2Sno2wIS07mIO/nKAovs40sYFN1Uj7r1I5UZEP0jVHB04VdOO8Wbf4IPdXlNLiuiwNSXblnsM7o3p7v5IlOsYE7dCfjFwwkhAFOOR8rD8wvKuUdZvFQZPhyoTGcyF1BOWJ+9WSD83eNEV5zb02W9iB+wNC114o="
+
+# Doxygen might be used to generate the reference pages on the spot.
+
+# Install dependencies.
+# addons:
+#  apt:
+#    packages:
+#      - doxygen
+#      - doxygen-doc
+#      - doxygen-latex
+#      - doxygen-gui
+#      - graphviz
+
+notifications:
+  email:
+    on_success: always # default: change
+    on_failure: always # default: always
+    
+cache: 
+  bundler: true
+
+before_install:
+  - bash scripts/travis.linux.sh before_install
+
+before_script:
+  - bash scripts/travis.linux.sh before_script
+
+script:
+  - bash scripts/travis.linux.sh script
+
+# -----------------------------------------------------------------------------
+# Unused.
+
+# after_success:
+#  - bash scripts/travis.linux.sh after_success
+
+# after_failure:
+#  - bash scripts/travis.linux.sh after_failure
+
+# Deploy via script not functional (or not understood).
+# deploy:
+#  provider: script
+#  script: bash scripts/travis.linux.sh deploy
+#  on:
+#    branch: master
+  
+# after_script:
+#  - bash scripts/travis.linux.sh after_script

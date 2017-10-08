@@ -1,0 +1,13 @@
+---
+---
+{
+ "name": "App",
+ "icons": [
+  {
+   "src": {{ "/components.png" | prepend: site.baseurl }},
+   "sizes": "135x135",
+   "type": "image\/png",
+   "density": "4.0"
+  }
+ ]
+}
