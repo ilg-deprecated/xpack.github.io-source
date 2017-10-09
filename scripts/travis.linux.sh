@@ -96,7 +96,7 @@ function do_script() {
   # Validate images and links (internal & external).
   if echo -e "${TRAVIS_COMMIT_MESSAGE}" | grep -v -e '\[skip proof\]'
   then
-    do_run bundle exec htmlproofer --only-4xx \
+    do_run bundle exec htmlproofer \
       --url-ignore="" \
       "${site}"
   fi
