@@ -11,7 +11,7 @@ date: 2017-10-01 15:34:00 +0300
 
 ## Mission statement
 
-Provide a set of tools to manage, configure and build complex, package based, multi-target (multi-architecture, multi-board, multi-toolchain), intended to **enhance code sharing** and **reusing** during the development of **C/C++** libraries and applications.
+Provide a set of tools to manage, configure and build complex, package based, multi-target (multi-architecture, multi-board, multi-toolchain), intended to **enhance code sharing** and **reusing** during the **C/C++** libraries and applications life cycle.
 
 ## xPacks overview
 
