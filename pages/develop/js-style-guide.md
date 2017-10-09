@@ -113,7 +113,7 @@ let sum = function(num1, num2) {
 
 ### Enhanced Object Functionality
 
-It’s now possible to modify an object’s prototype after it’s been created thanks to ECMAScript 6’s `Object.setPrototypeOf()` method.
+It is now possible to modify an object’s prototype after it has been created thanks to ECMAScript 6’s `Object.setPrototypeOf()` method.
 
 In addition, you can use the `super` keyword to call methods on an object’s prototype. The `this` binding inside a method invoked using `super` is set up to automatically work with the current value of `this`.
 
