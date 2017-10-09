@@ -15,7 +15,7 @@ Provide a set of tools to manage, configure and build complex, package based, mu
 
 ## xPacks overview
 
-**xPacks** are general purpose software C/C++ packages, much the same as [npm modules](https://docs.npmjs.com/getting-started/what-is-npm) do so nicely in the JavaScript ecosystem.
+**xPacks** are general purpose software C/C++ packages, much the same as the highly successful [npm modules](https://docs.npmjs.com/getting-started/what-is-npm) in the [Node.js](https://nodejs.org/en/)/JavaScript ecosystem.
 
 ## xPack tools
 
