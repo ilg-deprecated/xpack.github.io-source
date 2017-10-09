@@ -1,8 +1,8 @@
 ---
 layout: page
 lang: en
-permalink: /develop/how-to-release/
-title: How to release
+permalink: /develop/how-to-release-web/
+title: How to release the project web?
 author: Liviu Ionescu
 
 date: 2016-07-11 20:50:00 +0300
