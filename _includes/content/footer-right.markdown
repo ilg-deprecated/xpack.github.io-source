@@ -1,4 +1,4 @@
 * [Home]({{ site.baseurl }}/)
 * [News]({{ site.baseurl }}/blog/)
-* [Support](https://github.com/{{ site.github-project-name }}/issues)
+* [Support]({{ site.baseurl }}/support/)
 * [About]({{ site.baseurl }}/about/)
