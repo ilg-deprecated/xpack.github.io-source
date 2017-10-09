@@ -84,17 +84,17 @@ gems:
 # Custom definitions.
 
 # References to the project associated with the web.
-github-username:  ilg-ul
-github-project-name: xpack/xpm-js
-github-project-url: http://github.com/xpack/xpm-js
+# github-username:  ilg-ul
+github-project-name: xpack
+github-project-url: http://github.com/xpack
 github-this-project-url: https://github.com/xpack/xpack.github.io-source
 github-this-project-branch: master
 
 # Change it to refer to project's page
-# facebook-url: https://facebook.com/ilg-ul/
-facebook-page: https://facebook.com/xpack.project/
+facebook-url: https://facebook.com/xpack.project/
+# facebook-page: https://facebook.com/xpack.project/
 
-twitter-id: xpack_project
+# twitter-id: xpack_project
 twitter-url: http://twitter.com/xpack_project
 
 # If you have one, define it here.
