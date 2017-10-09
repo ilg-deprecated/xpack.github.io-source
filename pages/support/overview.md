@@ -17,20 +17,20 @@ In case you encounter problems while using the xPack tools, please consider the 
 * check the [Known issues]({{ site.baseurl }}/support/known-issues/)
 * check the [FAQ]({{ site.baseurl }}/support/faq/)
 * check the **xPack** sections in the [GNU MCU Eclipse forum]({{ site.baseurl }}/support/forum/) for similar problems
-* check the GitHub Issues trackers the specific package
+* check the GitHub Issues trackers for the specific package
     * [xpm tracker](https://github.com/xpack/xpm-js/issues/))
     * [xmake tracker](https://github.com/xpack/xmake-js/issues/))
 
 If you still could not find a solution, if you have interesting use cases, if you have custom configurations, and generally if you have any experience that you want to share with others, please use the GNU MCU Eclipse [forum]({{ site.baseurl }}/support/forum/).
 
-If you are convinced you identified a bug (if you have doubts, use the forum), or you have a pertinent suggestion how to enhance the xPack tools, please use the specific GitHub Issues tracker:
+If you are convinced that you identified a bug (if you have doubts, use the forum), or you have a pertinent suggestion how to enhance the xPack tools, please use the specific GitHub Issues tracker:
 * [xpm tracker](https://github.com/xpack/xpm-js/issues/))
 * [xmake tracker](https://github.com/xpack/xmake-js/issues/))
 
 ## Web pages issues
 
-If you discover problems in the content of these pages (typos, wrong phrasing, etc), or you have suggestions on how to improve them, you can use the [Web Issues](https://github.com/xpack/xpack.github.io/issues/) tracker.
+If you discover problems in the content of these pages (typos, wrong phrasing, etc), or you have suggestions on how to improve them, you can fork and send Pull Request for the [Web Source project](https://github.com/xpack/xpack.github.io-source) or use the [Web Source Issues](https://github.com/xpack/xpack.github.io-source/issues/) tracker.
 
 ## Use of private e-mail
 
-Please, please, please: **do not use private e-mail for support**, since such messages will be replied with a link to this page. The reason for this rude behaviour is simply an attempt to efficiently use the time; since forum posts and GitHub Issues are archived, other people having similar problems might benefit from the answers.
+Please, please, please: **do not use private e-mail for support**, since such messages will be automatically replied with a link to this page. The reason for this rude behaviour is simply an attempt to efficiently use the time; since forum posts and GitHub Issues are archived, other people having similar problems might benefit from the answers.

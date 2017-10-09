@@ -19,10 +19,12 @@ Provide a set of tools to manage, configure and build complex, package based, mu
 
 ## xPack tools
 
+The entire xPack project is open source and available on [GitHub](https://github.com/xpack).
+
 The main xPack tools are:
 
-* [xpm]({{ site.baseurl }}/xpm/) - the package manager
-* [xmake]({{ site.baseurl }}/xmake/) - the package builder
+* [xpm]({{ site.baseurl }}/xpm/) - the package manager ([GitHub](https://github.com/xpack/xpm-js), [npm](https://www.npmjs.com/package/xpm))
+* [xmake]({{ site.baseurl }}/xmake/) - the project builder ([GitHub](https://github.com/xpack/xmake-js), [npm](https://www.npmjs.com/package/xmake))
 * [xcdl]({{ site.baseurl }}/xcdl/) - the component & configuration framework
 
 ## License

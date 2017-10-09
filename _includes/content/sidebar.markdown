@@ -3,10 +3,16 @@
 #### xpm
 
 * [Overview]({{ site.baseurl }}/xpm/)
+* [Getting started]({{ site.baseurl }}/xpm/getting-started/)
+* [How xpm works]({{ site.baseurl }}/xpm/how-xpm-works/)
+* [CLI commands]({{ site.baseurl }}/xpm/cli/)
 
 #### xmake
 
 * [Overview]({{ site.baseurl }}/xmake/)
+* [Getting started]({{ site.baseurl }}/xmake/getting-started/)
+* [How xmake works]({{ site.baseurl }}/xmake/how-xpm-works/)
+* [CLI commands]({{ site.baseurl }}/xmake/cli/)
 
 #### xcdl
 
@@ -22,8 +28,6 @@
 * [Known issues]({{ site.baseurl }}/support/known-issues/)
 * [FAQ]({{ site.baseurl }}/support/faq/)
 * [Forum]({{ site.baseurl }}/support/forum/)
-* [Report xpm issues](https://github.com/xpack/xpm-js/issues/)
-* [Report xmake issues](https://github.com/xpack/xmake-js/issues/)
 
 #### License
 
