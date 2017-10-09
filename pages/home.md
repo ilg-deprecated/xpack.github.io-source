@@ -27,6 +27,8 @@ The main xPack tools are:
 * [xmake]({{ site.baseurl }}/xmake/) - the project builder ([GitHub](https://github.com/xpack/xmake-js), [npm](https://www.npmjs.com/package/xmake))
 * [xcdl]({{ site.baseurl }}/xcdl/) - the component & configuration framework
 
+The tools are more or less independent, for example both `xpm` and `xmake` can be run without each other, but together may benefit from shared configurations.
+
 ## License
 
 Unless otherwise mentioned, all **xPack** tools are provided **free of charge** under the terms of the [MIT License](https://opensource.org/licenses/MIT).
