@@ -1,7 +1,7 @@
 ---
 layout: page
 lang: en
-permalink: /xmake/how-it-works/
+permalink: /xmake/how-xmake-works/
 title: How xmake works
 author: Liviu Ionescu
 

@@ -19,7 +19,7 @@ Provide a set of tools to manage, configure and build complex, package based, mu
 
 ## xPack tools
 
-The entire xPack project is open source and available on [GitHub](https://github.com/xpack).
+The entire xPack project is open source and publicly available on [GitHub](https://github.com/xpack).
 
 The main xPack tools are:
 

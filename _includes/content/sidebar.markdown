@@ -11,7 +11,7 @@
 
 * [Overview]({{ site.baseurl }}/xmake/)
 * [Getting started]({{ site.baseurl }}/xmake/getting-started/)
-* [How xmake works]({{ site.baseurl }}/xmake/how-xpm-works/)
+* [How xmake works]({{ site.baseurl }}/xmake/how-xmake-works/)
 * [CLI commands]({{ site.baseurl }}/xmake/cli/)
 
 #### xcdl
