@@ -9,18 +9,5 @@ date: 2016-03-03 23:08:00 +0300
 
 ---
 
-## Major bugs
-
-(none so far)
-
-## Annoying bugs
-
-(none so far)
-
-## Other problems
-
-(none so far)
-
-## Advices (to avoid problems)
-
-(none so far)
+* [xpm known issues]({{ site.baseurl }}/xpm/support/known-issues/)
+* [xmake known issues]({{ site.baseurl }}/xmake/support/known-issues/)

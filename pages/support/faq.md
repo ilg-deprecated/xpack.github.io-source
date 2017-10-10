@@ -9,4 +9,5 @@ date: 2015-09-11 20:28:00 +0300
 
 ---
 
-TBD
+* [xpm FAQ]({{ site.baseurl }}/xpm/support/faq/)
+* [xmake FAQ]({{ site.baseurl }}/xmake/support/faq/)
