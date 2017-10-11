@@ -35,7 +35,7 @@ Named children objects are stored in objects (not arrays), with the names as pro
 
 ### Names
 
-Since some xsvd definitions may be used to support the generation of C/C++ code files (object names may be used to compose type and macro definitions), the names must comply with ANSI C naming restrictions. In particular, they must not contain any spaces or special characters.
+Since some xsvd definitions may be used to support the generation of C/C++ code files (object names may be used to compose type and macro definitions), the names must comply with ANSI C naming restrictions. In particular, they must not contain any spaces or special characters. Hyphens are allowed, but, when used to compose definitions, will be converted to underscores.
 
 ### Values
 
@@ -65,6 +65,10 @@ The syntax used in the `repeatGenerator` property is:
 * a sequence of letters, like `A,B,C`
 * a range of letters, like `A-G`.
 
+### Reset masks
+
+In addition to hex values, the strings `all` and `none` can be used, with the meaning of 0xFF..FF and 0x0.
+
 ## Revision history
 
 The format version is reflected in the `schemaVersion` property, present in the root object. The value of this property follows the semantic versioning requirements ([semver](http://semver.org)).
@@ -77,15 +81,15 @@ First formal specifications defined. Used to define the SiFive devices (like the
 
 Differences from SVD:
 
-- explicit separate definitions for repetitions and arrays
-- accept repetitions for fields
-- accept `resetValue` and `resetMask` for fields
-- the `access` property was simplified to `[“ro”,”rw”]`
-- use `busWidth` (instead of `<width>`)
-- use `regWidth` (instead of `<size>`)
-- use `repeatIncrement` (instead of `<dimIncrement>`)
-- use `repeatGenerator` (instead of `<dimIndex>`)
-- use `arraySize` (instead of `<dim>`)
+* explicit separate definitions for repetitions and arrays
+* accept repetitions for fields
+* accept `resetValue` and `resetMask` for fields
+* the `access` property was simplified to `[“ro”,”rw”]`
+* use `busWidth` (instead of `<width>`)
+* use `regWidth` (instead of `<size>`)
+* use `repeatIncrement` (instead of `<dimIncrement>`)
+* use `repeatGenerator` (instead of `<dimIndex>`)
+* use `arraySize` (instead of `<dim>`)
 
 #### v0.1.0 (2016-12-14)
 
@@ -132,9 +136,9 @@ The device is the top-most object, and contains one or more peripherals.
 | `description` | string | A long string to describe the main features of the device. |
 | `busWidth` | string | The width of the maximum single data transfer supported by the bus infrastructure, in bits. This information is relevant for debuggers when accessing registers, because it might be required to issue multiple accesses for resources of a bigger size. |
 | `regWidth` | string | Default width of any register contained in the device, in bits. |
-| `access` | string | Default access rights for all registers. Values: ["ro","rw"]. |
-| `resetValue` | string | Default value for all registers at RESET. |
+| `access` | string | Default access rights for all registers. Values: `["ro","rw"]`. |
 | `resetMask` | string | The register bits that have a defined reset value. |
+| `resetValue` | string | Default value for all registers at RESET. |
 | `cpu` | object | An object defining the CPU characteristics. |
 | `peripherals` | object | A map of peripheral objects. The keys are internal IDs used to refer to the peripherals; externally use the `displayName`; must be unique among devices. |
 
@@ -197,9 +201,9 @@ To create copies of a peripheral using different names, use the `derivedFrom` pr
 | `baseAddress` | string | The lowest address of the memory block used by the peripheral. |
 | `size` | string | The size in bytes of the memory block used by the peripheral. |
 | `regWidth` | string | Default width of any register contained in the peripheral, in bits. |
-| `access` | string | Default access rights for all peripheral registers. Values: ["ro","rw"]. |
-| `resetValue` | string | Default value for all peripheral registers at RESET. |
+| `access` | string | Default access rights for all peripheral registers. Values: `["ro","rw"]`. |
 | `resetMask` | string | The register bits that have a defined reset value. |
+| `resetValue` | string | Default value for all peripheral registers at RESET. |
 | `repeatIncrement` | string | The address increment, in bytes, between two neighbouring peripherals in a repetition or an array. |
 | `repeatGenerator` | string | A generator of strings that substitute the placeholder `%s` within the `displayName`. 
 | `groupName` | string | Define a name under which the Peripheral Registers Viewer is showing this peripheral. |
@@ -248,9 +252,9 @@ The `repeatIncrement` property specifies the offset in bytes between two cluster
 | `description` | string | A long string to describe the register. |
 | `addressOffset` | string | The address offset relative to the enclosing element (peripheral or cluster). |
 | `regWidth` | string | The width of the register, in bits. |
-| `access` | string | Default access rights for the register. Values: ["ro","rw"]. |
-| `resetValue` | string | Default value for the register at RESET. |
+| `access` | string | Default access rights for the register. Values: `["ro","rw"]`. |
 | `resetMask` | string | The register bits that have a defined reset value. |
+| `resetValue` | string | Default value for the register at RESET. |
 | `repeatIncrement` | string | The address increment, in bytes, between two neighbouring clusters in a repetition or an array. |
 | `repeatGenerator` | string | A generator of strings that substitute the placeholder `%s` within the `displayName`. 
 | `arraySize` | string | The size of the array of clusters. |
@@ -309,9 +313,9 @@ The `repeatIncrement` property specifies the offset in bytes between two registe
 | `description` | string | A long string to describe the register. |
 | `addressOffset` | string | The address offset relative to the enclosing element (peripheral or cluster). |
 | `regWidth` | string | The width of the register, in bits. |
-| `access` | string | Default access rights for the register. Values: ["ro","rw"]. |
-| `resetValue` | string | Default value for the register at RESET. |
+| `access` | string | Default access rights for the register. Values: `["ro","rw"]`. |
 | `resetMask` | string | The register bits that have a defined reset value. |
+| `resetValue` | string | Default value for the register at RESET. |
 | `repeatIncrement` | string | The address increment, in bytes, between two neighbouring registers in a repetition or an array. |
 | `repeatGenerator` | string | A generator of strings that substitute the placeholder `%s` within the `displayName`. 
 | `arraySize` | string | The size of the array of registers. |
@@ -364,9 +368,9 @@ A field may define an enumeration in order to make the display more intuitive to
 | `description` | string | A long string to describe the field. |
 | `bitOffset` | string | The position of the least significant bit of the field within the register. |
 | `bitWidth` | string | The bit-width of the field within the register. |
-| `access` | string | Default access rights for the register. Values: ["ro","rw"]. |
-| `resetValue` | string | Default value for the field at RESET. |
+| `access` | string | Default access rights for the register. Values: `["ro","rw"]`. |
 | `resetMask` | string | The field bits that have a defined reset value. |
+| `resetValue` | string | Default value for the field at RESET. |
 | `repeatIncrement` | string | The offset increment, in bits, between two neighbouring fields in a repetition. |
 | `repeatGenerator` | string | A generator of strings that substitute the placeholder `%s` within the `displayName`. 
 | `enumeration` | object | A map with a single property. The key is the enumeration name. |
@@ -469,7 +473,7 @@ A peripheral can have multiple interrupts. This object allows the debugger to sh
 | `displayName` | string | A short string to externally identify the interrupt. Must be unique among all interrupts. If missing, the internal name (the map key) is used. |
 | `description` | string | A long string to describe the interrupt. |
 | `value` | string | The enumeration index value associated to the interrupt. |
-| `type` | string | The interrupt type, if the architecture defines multiple interrupt spaces. Architecture specific. For RISC-V use `["local","global"].` |
+| `type` | string | The interrupt type, if the architecture defines multiple interrupt spaces. Architecture specific. For RISC-V use `["local","global"]`. |
 | `headerIrqName` | string | The name used for the interrupt handler. |
 
 Example
@@ -530,7 +534,7 @@ Example
 
 ## TODO
 
-- clarify how multi-core devices can be described
-- clarify if the `cpu` object is needed, since most of its definitions are already in the `device-xcdl.json` file
-- define where the interrupt names are added
-- define the QEMU mode bits, that define if unaligned or smaller size accesses are allowed.
+* clarify how multi-core devices can be described
+* clarify if the `cpu` object is needed, since most of its definitions are already in the `device-xcdl.json` file
+* define where the interrupt names are added
+* define the QEMU mode bits, that define if unaligned or smaller size accesses are allowed.
