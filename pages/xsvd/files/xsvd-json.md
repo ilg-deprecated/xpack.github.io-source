@@ -27,6 +27,12 @@ Contrary to the wider scope of IP-XACT, the xsvd format was intentionally kept a
 
 ## File conventions
 
+### JSON Properties
+
+As with any JSON file, the content is basically an object with several properties, represented as `"name": <value>`. The values may be strings, objects or arrays of other values.
+
+Named children objects are stored in objects (not arrays), with the names as properties (implemented as maps, with names as keys).
+
 ### Names
 
 Since some xsvd definitions may be used to support the generation of C/C++ code files (object names may be used to compose type and macro definitions), the names must comply with ANSI C naming restrictions. In particular, they must not contain any spaces or special characters.
@@ -85,7 +91,7 @@ Initial version, a direct correspondence to the ARM SVD format. Firstly implemen
 
 ## Objects
 
-As with any JSON file, the content is basically an object with several properties, represented as `"name": <value>`. The values may be strings, objects or arrays of other values.
+The entire xsvd file is basically a hierarchy of objects, with the JSON root on top.
 
 ### The root object
 
