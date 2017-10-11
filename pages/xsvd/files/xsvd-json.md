@@ -13,13 +13,13 @@ date: 2017-10-10 20:00:00 +0300
 
 The **xsvd** format is inspired from ARM [CMSIS SVD](http://www.keil.com/cmsis/svd), which is based on XML and was influenced by [IP-XACT](https://en.wikipedia.org/wiki/IP-XACT).
 
-The xsvd content is generally similar to the SVD content, but it is better structured in a hierarchy of objects with properties. As such, the natural format to represent it is JSON, which is simpler and easier to parse than XML.
+The xsvd content is generally similar to the SVD content, but it has a better structure, using a hierarchy of objects with properties. As such, the natural format to represent it is JSON, which is simpler and easier to parse than XML.
 
-To help the migration from CMSIS Packs to xPacks, an automated tool was written to convert ARM SVD to **xsvd**.
+To help the migration from CMSIS Packs to xPacks, an automated tool was written to convert ARM SVD to xsvd.
 
 ## Purpose
 
-Contrary to the wider scope of IP-XACT, the xsvd format was intentionally kept simple, since it is currently intended only to: 
+Contrary to the wider scope of IP-XACT, the xsvd format was intentionally kept as simple as possible, since it is currently intended only to: 
 
 * allow debuggers to display memory mapped peripherals, with separate fields for registers
 * automate the generation of device header files
