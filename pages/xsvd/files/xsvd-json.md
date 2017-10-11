@@ -67,7 +67,9 @@ The syntax used in the `repeatGenerator` property is:
 
 ## Revision history
 
-Versions in reverse chronological order.
+The format version is reflected in the `schemaVersion` property, present in the root object.
+
+Versions are listed in reverse chronological order.
 
 #### v0.2.0 (2017-10-11)
 
@@ -105,7 +107,7 @@ Example
 
 ```json
 {
-    "schemaVersion": "0.1.0",
+    "schemaVersion": "0.2.0",
     "devices": {
         "fe310-g000": {
             "...": "..."
