@@ -1,7 +1,7 @@
 ---
 layout: page
 lang: en
-permalink: /xcdl/files/xsvd-json
+permalink: /xsvd/files/xsvd-json/
 title: The xsvd format 
 author: Liviu Ionescu
 

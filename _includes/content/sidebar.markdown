@@ -18,6 +18,10 @@
 
 * [Overview]({{ site.baseurl }}/xcdl/)
 
+#### xsvd
+
+* [Overview]({{ site.baseurl }}/xsvd/)
+
 #### Developer
 
 * [Overview]({{ site.baseurl }}/develop/)
