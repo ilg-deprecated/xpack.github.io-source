@@ -67,7 +67,7 @@ The syntax used in the `repeatGenerator` property is:
 
 ## Revision history
 
-The format version is reflected in the `schemaVersion` property, present in the root object.
+The format version is reflected in the `schemaVersion` property, present in the root object. The value of this property follows the semantic versioning requirements ([semver](http://semver.org)).
 
 Versions are listed in reverse chronological order.
 
