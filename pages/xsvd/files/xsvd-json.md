@@ -19,11 +19,11 @@ To help the migration from CMSIS Packs to xPacks, an automated tool was written 
 
 ## Purpose
 
-Contrary to the wider scope of IP-XACT, the xsvd format was intentionally kept as simple as possible, since it is currently intended only to: 
+Contrary to the wider scope of IP-XACT, the xsvd format was intentionally kept as simple as possible, since it is currently intended only for: 
 
-* allow debuggers to display memory mapped peripherals, with separate fields for registers
-* automate the generation of device header files
-* automate the generation of source files implementing the peripherals in emulators (like QEMU).
+* allowing debuggers to display memory mapped peripherals, including separate register bit-fields
+* supporting the automated generation of device header files
+* supporting the automated generation of source files implementing the peripherals in emulators (like QEMU).
 
 ## File conventions
 
@@ -272,7 +272,7 @@ The `repeatIncrement` property specifies the offset in bytes between two cluster
         "targets": {
             "displayName": "targets[%s]",
             "arraySize": "1",
-            "description": "Hart M-Mode interrupt threasholds",
+            "description": "Hart M-Mode interrupt thresholds",
             "addressOffset": "0x0C200000",
             "repeatIncrement": "0x8",
             "registers": {
@@ -460,7 +460,7 @@ A peripheral can have multiple interrupts. This object allows the debugger to sh
 
 | Parent |
 |:-------|
-| The `interrupts` property of an **peripheral** object. |
+| The `interrupts` property of a **peripheral** object. |
 
 | Properties | Type | Description |
 |:-----------|:-----|:------------|
