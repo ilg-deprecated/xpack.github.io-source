@@ -101,7 +101,7 @@ The entire xsvd file is basically a hierarchy of objects, with the JSON root on 
 |:-----------|:-----|:------------|
 | `schemaVersion` | string | The version is used by the parser to identify different file formats. |
 | `devices` | object | A map of device objects. Device names are internal IDs used to refer to the device; externally use the device `displayName`; must be unique among all files. |
-| `generators` | array | Array of generator objects describing the tools that generated/modified this file. |
+| `generators` | array | Array of generator objects describing the tools that generated/modified the current file. |
 
 Example
 
@@ -132,7 +132,7 @@ The device is the top-most object, and contains one or more peripherals.
 | `description` | string | A long string to describe the main features of the device. |
 | `busWidth` | string | The width of the maximum single data transfer supported by the bus infrastructure, in bits. This information is relevant for debuggers when accessing registers, because it might be required to issue multiple accesses for resources of a bigger size. |
 | `regWidth` | string | Default width of any register contained in the device, in bits. |
-| `access` | string | Default access rights for all registers. Values: [ "ro", "rw" ]. |
+| `access` | string | Default access rights for all registers. Values: ["ro","rw"]. |
 | `resetValue` | string | Default value for all registers at RESET. |
 | `resetMask` | string | The register bits that have a defined reset value. |
 | `cpu` | object | An object defining the CPU characteristics. |
@@ -179,7 +179,7 @@ Each peripheral describes all registers belonging to that peripheral.
 Each peripheral has a memory block where the registers are allocated, defined as a base address and a size.
 Register addresses are specified relative to the base address of a peripheral.
 
-Multiple similar peripherals sharing a common name can be defined as repetitions using the `repeatGenerator` property; for example instead of defining GPIOA, GPIOB, GPIOC, use `GPIO%s` (or simply `GPIO`, since %s at the end is default) and define separate generators like `A,B,C` or `A-C`.
+Multiple similar peripherals sharing a common name can be defined as repetitions using the `repeatGenerator` property; for example instead of defining `GPIOA`, `GPIOB`, `GPIOC`, use `GPIO%s` (or simply `GPIO`, since `%s` at the end is default) and define separate generators like `A,B,C` or `A-C`.
 
 The `repeatIncrement` property specifies the address offset between two peripherals. 
 
