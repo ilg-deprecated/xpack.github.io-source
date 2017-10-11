@@ -1,7 +1,7 @@
 ---
 layout: page
 lang: en
-permalink: /xcdl/files/xcdl-json
+permalink: /xcdl/files/xcdl-json/
 title: The xcdl format
 author: Liviu Ionescu
 
