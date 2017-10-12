@@ -191,11 +191,11 @@ Use named functions.
 
 ### Case, naming, etc
 
-- use **lowerCamelCase** for multiword identifiers when they refer to objects, functions, methods, properties, or anything not specified in this section
-- use **UpperCamelCase** for class names (things that you'd pass to "new")
-- use **all-lower-hyphen-css-case** for multiword filenames and config keys
+- use `lowerCamelCase` for multi-word identifiers when they refer to objects, functions, methods, properties, or anything not specified in this section
+- use `UpperCamelCase` for class names (things that you'd pass to "new")
+- use `all-lower-hyphen-css-case` for multi-word filenames and config keys
 - use named functions, they make stack traces easier to follow
-- use **CAPS\_SNAKE\_CASE** for constants, things that should never change and are rarely used
+- use `CAPS_SNAKE_CASE` for constants, things that should never change and are rarely used
 
 ### null, undefined, false
 
@@ -214,7 +214,7 @@ But for the modern ES 6 promise usage, exceptions are fine.
 
 ### Modules
 
-Modules are a way of preventing multiple JavaScript units to polute the global namespace.
+Modules are a way of preventing multiple JavaScript units to pollute the global namespace.
 
 Objects defined at root level in a module are not global, but belong to the module; the usual name for this is _module-global_. 
 
@@ -236,7 +236,7 @@ module.exports.area = (r) => PI * r * r
 module.exports.circumference = (r) => 2 * PI * r
 ```
 
-Although you can rewrite the `module.export` to be a sinle function (such as a constructor), still prefer to add them as properties to the object and refer to them explicitly in the `require()` line:
+Although you can rewrite the `module.export` to be a single function (such as a constructor), still prefer to add them as properties to the object and refer to them explicitly in the `require()` line:
 
 ```javascript
 const square = require('./square.js').square
@@ -303,13 +303,13 @@ This is Rule no. 1, that overrides all other rules. Definitely **avoid using old
 
 ### Use classes as much as possible
 
-Even if the new syntax is mostly syntactic sugar, and internally things behave as strangly as they did in the first JavaScript versions, still **use the new class syntax** at large; it is much cleaner and improves readability.
+Even if the new syntax is mostly syntactic sugar, and internally things behave as strangely as they did in the first JavaScript versions, still **use the new class syntax** at large; it is much cleaner and improves readability.
 
 ### Use promises instead of callbacks
 
 Really. No callbacks at all. Use promises.
 
-### Use async/await for anynchronous calls
+### Use async/await for asynchronous calls
 
 Once `async`/`await` became standard, and the V8 engine added support for them, there is no reason for not using `async`/`await`.
 
@@ -350,7 +350,7 @@ The recommendation is to always return functions or preferably classes as proper
 
 Prepare your module to export multiple functions; group them (by functionality) either below a parent object, or, even better, in classes with static members.
 
-The main advantage of this scheme is that adding new exports will only change the interface incrementaly, minimising the risk to break backward compatibility.
+The main advantage of this scheme is that adding new exports will only change the interface incrementally, minimising the risk to break backward compatibility.
 
 ## Make node exports/imports look like ES6 exports/imports
 
@@ -371,7 +371,7 @@ const WscriptAvoider = require('wscript-avoider').WscriptAvoider
 WscriptAvoider.quitIfWscript(appName)
 ```
 
-Cases like `import { WscriptAvoider as Xyz } from 'wscript-avoider.js'` would be naturaly represented as:
+Cases like `import { WscriptAvoider as Xyz } from 'wscript-avoider.js'` would be naturally represented as:
 
 ```javascript
 const Xyz = require('wscript-avoider').WscriptAvoider
@@ -382,7 +382,7 @@ In case the class is not static, instantiate it as usual.
 
 ## Links to other style guides
 
-Prefered:
+Preferred:
 
 - [JavaScript "Standard" Style](https://standardjs.com)
 
@@ -398,7 +398,7 @@ Other links:
 
 ## Linting Tools
 
-Prefered (used automatically by Standard):
+Preferred (used automatically by Standard):
 
 - [ESLint](http://eslint.org/), but indirectly via the 'Standard JS' tools.
 
