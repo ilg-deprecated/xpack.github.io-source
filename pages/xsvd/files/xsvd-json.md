@@ -67,13 +67,24 @@ The syntax used in the `repeatGenerator` property is:
 
 ### Reset masks
 
-In addition to hex values, the strings `all` and `none` can be used, with the meaning of 0xFF..FF and 0x0.
+In addition to hex values, the strings `all` and `none` can be used, with the meaning of `0xFF..FF` and `0x0`.
 
 ## Revision history
 
 The format version is reflected in the `schemaVersion` property, present in the root object. The value of this property follows the semantic versioning requirements ([semver](http://semver.org)).
 
 Versions are listed in reverse chronological order.
+
+#### v0.2.1 (2017-10-18)
+
+* increase `schemaVersion` to 0.2.1
+* rename top `version` to `contentVersion`
+* rename device `version` to `siliconVersion`
+* add `groupName` to peripheral
+* the content of `access` was changed to ["r","w","rw"]
+* `repeatIncrement` ignored for register
+* add `headerTypePrefix` to device
+* add `vendor` to device
 
 #### v0.2.0 (2017-10-11)
 
@@ -84,7 +95,7 @@ Differences from SVD:
 * explicit separate definitions for repetitions and arrays
 * accept repetitions for fields
 * accept `resetValue` and `resetMask` for fields
-* the `access` property was simplified to `[“ro”,”rw”]`
+* the `access` property was simplified to `["r","w","rw"]`
 * use `busWidth` (instead of `<width>`)
 * use `regWidth` (instead of `<size>`)
 * use `repeatIncrement` (instead of `<dimIncrement>`)
@@ -136,9 +147,11 @@ The device is the top-most object, and contains one or more peripherals.
 | `description` | string | A long string to describe the main features of the device. |
 | `busWidth` | string | The width of the maximum single data transfer supported by the bus infrastructure, in bits. This information is relevant for debuggers when accessing registers, because it might be required to issue multiple accesses for resources of a bigger size. |
 | `regWidth` | string | Default width of any register contained in the device, in bits. |
-| `access` | string | Default access rights for all registers. Values: `["ro","rw"]`. |
+| `access` | string | Default access rights for all registers. Values: `["r","w","rw"]`. |
 | `resetMask` | string | The register bits that have a defined reset value. |
 | `resetValue` | string | Default value for all registers at RESET. |
+| `headerTypePrefix` | string | The prefix to be used on type definitions. |
+| `vendor` | object | The device vendor. |
 | `cpu` | object | An object defining the CPU characteristics. |
 | `peripherals` | object | A map of peripheral objects. The keys are internal IDs used to refer to the peripherals; externally use the `displayName`; must be unique among devices. |
 
@@ -165,6 +178,22 @@ Example
     "...": "..."
 }
 ```
+
+### The _vendor_ object
+
+| Parent |
+|:-------|
+| A **device** object. |
+
+The device vendor.
+
+| Properties | Type | Description |
+|:-----------|:-----|:------------|
+| `name` | string | The vendor short name. |
+| `id` | string | The vendor numeric id; should not change over time. |
+| `displayName` | string | A string to externally identify the vendor. |
+| `contact` | string | Contact information. |
+
 
 ### The _cpu_ object
 
@@ -198,10 +227,11 @@ To create copies of a peripheral using different names, use the `derivedFrom` pr
 | `derivedFrom` | string | The peripheral name from which to inherit properties. Subsequent properties override inherited values. |
 | `displayName` | string | A short string to externally identify the peripheral. Must be unique among the device. If missing, the internal name (the map key) is used. |
 | `description` | string | A long string to describe the peripheral. |
+| `groupName` | string | Define a name for several related peripherals; used when generating types. |
 | `baseAddress` | string | The lowest address of the memory block used by the peripheral. |
 | `size` | string | The size in bytes of the memory block used by the peripheral. |
 | `regWidth` | string | Default width of any register contained in the peripheral, in bits. |
-| `access` | string | Default access rights for all peripheral registers. Values: `["ro","rw"]`. |
+| `access` | string | Default access rights for all peripheral registers. Values: `["r","w","rw"]`. |
 | `resetMask` | string | The register bits that have a defined reset value. |
 | `resetValue` | string | Default value for all peripheral registers at RESET. |
 | `repeatIncrement` | string | The address increment, in bytes, between two neighbouring peripherals in a repetition or an array. |
@@ -252,7 +282,7 @@ The `repeatIncrement` property specifies the offset in bytes between two cluster
 | `description` | string | A long string to describe the register. |
 | `addressOffset` | string | The address offset relative to the enclosing element (peripheral or cluster). |
 | `regWidth` | string | The width of the register, in bits. |
-| `access` | string | Default access rights for the register. Values: `["ro","rw"]`. |
+| `access` | string | Default access rights for the register. Values: `["r","w","rw"]`. |
 | `resetMask` | string | The register bits that have a defined reset value. |
 | `resetValue` | string | Default value for the register at RESET. |
 | `repeatIncrement` | string | The address increment, in bytes, between two neighbouring clusters in a repetition or an array. |
@@ -313,10 +343,9 @@ The `repeatIncrement` property specifies the offset in bytes between two registe
 | `description` | string | A long string to describe the register. |
 | `addressOffset` | string | The address offset relative to the enclosing element (peripheral or cluster). |
 | `regWidth` | string | The width of the register, in bits. |
-| `access` | string | Default access rights for the register. Values: `["ro","rw"]`. |
+| `access` | string | Default access rights for the register. Values: `["r","w","rw"]`. |
 | `resetMask` | string | The register bits that have a defined reset value. |
 | `resetValue` | string | Default value for the register at RESET. |
-| `repeatIncrement` | string | The address increment, in bytes, between two neighbouring registers in a repetition or an array. |
 | `repeatGenerator` | string | A generator of strings that substitute the placeholder `%s` within the `displayName`. 
 | `arraySize` | string | The size of the array of registers. |
 | `fields` | object | A map of field objects. The keys are internal IDs used to refer to the fields; externally use the `displayName`. |
@@ -368,7 +397,7 @@ A field may define an enumeration in order to make the display more intuitive to
 | `description` | string | A long string to describe the field. |
 | `bitOffset` | string | The position of the least significant bit of the field within the register. |
 | `bitWidth` | string | The bit-width of the field within the register. |
-| `access` | string | Default access rights for the register. Values: `["ro","rw"]`. |
+| `access` | string | Default access rights for the register. Values: `["r","w","rw"]`. |
 | `resetMask` | string | The field bits that have a defined reset value. |
 | `resetValue` | string | Default value for the field at RESET. |
 | `repeatIncrement` | string | The offset increment, in bits, between two neighbouring fields in a repetition. |
