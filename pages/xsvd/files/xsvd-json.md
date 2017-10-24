@@ -502,7 +502,6 @@ A peripheral can have multiple interrupts. This object allows the debugger to sh
 | `displayName` | string | A short string to externally identify the interrupt. Must be unique among all interrupts. If missing, the internal name (the map key) is used. |
 | `description` | string | A long string to describe the interrupt. |
 | `value` | string | The enumeration index value associated to the interrupt. |
-| `type` | string | The interrupt type, if the architecture defines multiple interrupt spaces. Architecture specific. For RISC-V use `["local","global"]`. |
 | `headerIrqName` | string | The name used for the interrupt handler. |
 
 Example
