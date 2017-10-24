@@ -142,17 +142,21 @@ The device is the top-most object, and contains one or more peripherals.
 
 | Properties | Type | Description |
 |:-----------|:-----|:------------|
-| `version` | string | The version of the device. |
+| `revision` | string | The silican revision, usually in `r0p0` format. |
 | `displayName` | string | A short string to externally identify the device. Must be unique among all files. If missing, the internal name (the map key) is used. |
 | `description` | string | A long string to describe the main features of the device. |
+| `vendor` | object | The device vendor. |
 | `busWidth` | string | The width of the maximum single data transfer supported by the bus infrastructure, in bits. This information is relevant for debuggers when accessing registers, because it might be required to issue multiple accesses for resources of a bigger size. |
 | `regWidth` | string | Default width of any register contained in the device, in bits. |
 | `access` | string | Default access rights for all registers. Values: `["r","w","rw"]`. |
 | `resetMask` | string | The register bits that have a defined reset value. |
 | `resetValue` | string | Default value for all registers at RESET. |
-| `headerTypePrefix` | string | The prefix to be used on type definitions. |
-| `vendor` | object | The device vendor. |
-| `cpu` | object | An object defining the CPU characteristics. |
+| `headerTypePrefix` | string | The prefix to be used in type definitions. |
+| `headerInterruptPrefix` | string | The prefix to be used in interrupt definitions. |
+| `headerInterruptEnumPrefix` | string | The prefix to be used in the name of the interrupt enum. |
+| `numInterrupts` | string | The total number of interrupts. Some platforms, like RISC-V start the count at 1. |
+| `priorityBits` | string | The number of bits available in the Interrupt Controller for configuring priorities. |
+| `cores` | object | A map of core objects. The keys are internal IDs used to refer to the cores. |
 | `peripherals` | object | A map of peripheral objects. The keys are internal IDs used to refer to the peripherals; externally use the `displayName`; must be unique among devices. |
 
 Example
