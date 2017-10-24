@@ -385,6 +385,8 @@ The `repeatIncrement` property specifies the offset in bits between two bit-fiel
 
 A field may define an enumeration in order to make the display more intuitive to read.
 
+The field names `mask`, `position` and `offset` are reserved.
+
 | Parent |
 |:-------|
 | The `fields` property of a  **cluster** or **peripheral** object. |
