@@ -352,9 +352,40 @@ Prepare your module to export multiple functions; group them (by functionality) 
 
 The main advantage of this scheme is that adding new exports will only change the interface incrementally, minimising the risk to break backward compatibility.
 
+### Iterate over an Array
+
+Use `for ... of`.
+
+```javascript
+let iterable = [10, 20, 30];
+
+for (let value of iterable) {
+  value += 1;
+  console.log(value);
+}
+// 11
+// 21
+// 31
+```
+
+As alternate solution, you can use `.forEach()`, but there is no way to break a loop and it is more difficult to single step
+
+**Do not** use `for ... in` since it iterates over the enumerable properties, which include inherited properties (use `.hasOwnProperty()` to filter them out).
+
+### Iterate over the keys of an Object
+
+If the order is not important, iterate over the keys or the entries:
+
+```javascript
+// array like object with random key ordering
+var anObj = { 100: 'a', 2: 'b', 7: 'c' };
+console.log(Object.keys(anObj)); // ['2', '7', '100']
+console.log(Object.entries(anObj)); // [ ['2', 'b'], ['7', 'c'], ['100', 'a'] ]
+```
+
 ## Make node exports/imports look like ES6 exports/imports
 
-Assuming classes are prefered, the EC6 syntax for export/import would look like:
+Assuming classes are preferred, the EC6 syntax for export/import would look like:
 
 ```javascript
 export class WscriptAvoider { ... }
