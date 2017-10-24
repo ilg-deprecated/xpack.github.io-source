@@ -195,13 +195,23 @@ The device vendor.
 | `contact` | string | Contact information. |
 
 
-### The _cpu_ object
+### The _cores_ object
 
 | Parent |
 |:-------|
 | A **device** object. |
 
-TBD
+Most of the properties are descriptive, and currently do not participate in code generation.
+
+| Properties | Type | Description |
+|:-----------|:-----|:------------|
+| `harts` | string | The number of hardware threads per core. The default is 1. |
+| `isa` | string | A short string to define the Instruction Set Architecture. |
+| `isaVersion` | string | A short string to define the Instruction Set Architecture. |
+| `mpu` | string | A string that indicate whether the core is equipped with a memory protection unit (MPU). Accepted values are `true/false` or custom names, for example, for RISC-V use 'pmp'. If no MPU is present, `none` is also accepted. |
+| `mmu` | string | A string that indicate whether the core is equipped with a memory management unit (MMU). Accepted values are `true/false` or custom names, for example, for RISC-V use 'sv32/sv39/sv48'. If no MMU is present, `none` is also accepted. |
+| `numLocalInterrupts` | string | The total number of local interrupts (specific to a core). Some platforms, like RISC-V always have at least 16 interrupts. |
+| `localInterrupts` | object | A map of interrupt objects. |
 
 
 ### The _peripheral_ object
