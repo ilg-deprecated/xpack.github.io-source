@@ -77,6 +77,18 @@ The format version is reflected in the `schemaVersion` property, present in the 
 
 Versions are listed in reverse chronological order.
 
+#### v0.2.2 (2017-10-23)
+
+* increase `schemaVersion` to 0.2.2
+* add top `headerVersion`
+* add `headerInterruptPrefix` to `device`
+* add `headerInterruptEnumPrefix` to `device`
+* add `numInterrupts` to `device`
+* add `priorityBits` to `device`
+* remove unused `cpu` from `device`
+* add `cores` to `device`
+* remove `type` from `interrupt`; local interrupts are now defined per core
+
 #### v0.2.1 (2017-10-18)
 
 * increase `schemaVersion` to 0.2.1
@@ -95,6 +107,8 @@ First formal specifications defined. Used to define the SiFive devices (like the
 Differences from SVD:
 
 * explicit separate definitions for repetitions and arrays
+* simplified definitions for arrays, no explicit `[%s]` needed, added automatically
+* simplified definitions for repetitions, no explicit `%s` if at the end, added automatically
 * accept repetitions for fields
 * accept `resetValue` and `resetMask` for fields
 * the `access` property was simplified to `["r","w","rw"]`
