@@ -65,6 +65,8 @@ The syntax used in the `repeatGenerator` property is:
 * a sequence of letters, like `A,B,C`
 * a range of letters, like `A-G`.
 
+Note: currently ranges are not implemented.
+
 ### Reset masks
 
 In addition to hex values, the strings `all` and `none` can be used, with the meaning of `0xFF..FF` and `0x0`.
