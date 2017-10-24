@@ -115,6 +115,8 @@ The entire xsvd file is basically a hierarchy of objects, with the JSON root on 
 | Properties | Type | Description |
 |:-----------|:-----|:------------|
 | `schemaVersion` | string | The version is used by the parser to identify different file formats. |
+| `contentVersion` | string | The content version; increase it with each change. |
+| `headerVersion` | string | The version to be used in the generated header; it generally follows `contentVersion`, but may change if the header is regenerated with a new version of `xsvd`. |
 | `devices` | object | A map of device objects. Device names are internal IDs used to refer to the device; externally use the device `displayName`; must be unique among all files. |
 | `generators` | array | Array of generator objects describing the tools that generated/modified the current file. |
 
