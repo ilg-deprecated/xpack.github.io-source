@@ -15,41 +15,40 @@ TBD
 
 * `XPACKS_REPO_FOLDER`
 * `XPACKS_CACHE_FOLDER`
-
 * `XPACKS_SYSTEM_FOLDER`
 
 ## macOS
 
-Local (home) install:
+Global (home) install:
 
 * `${HOME}/Library/xPacks`
 * `${HOME}/Library/Caches/xPacks`
 
-Global install:
+System install:
 
 * `/opt/xPacks` with 
 * links in `/usr/local/bin` (normally in `PATH`)
 
 ## GNU/Linux
 
-Local (home) install:
+Global (home) install:
 
 * `${HOME}/opt/xPacks`
 * `${HOME}/.caches/xPacks`
 
-Global install:
+System install:
 
 * `/opt/xPacks` 
 * links in `/usr/local/bin` (normally in `PATH`)
 
 ## Windows
 
-Local (home) install:
+Global (home) install:
 
 * `%APPDATA%\xPacks` (`C:\Users\ilg\AppData\Roaming\xPacks`)
 * `%LOCALAPPDATA%\Caches\xPacks` (`C:\Users\ilg\AppData\Local\Caches\xPacks`)
 
-Global install:
+System install:
 
 * `%ProgramFiles%\xPacks` (`C:\Program Files\xPacks`)
 * links in `%ProgramFiles%\xPacks\.bin`, which must be added to the `Path`
