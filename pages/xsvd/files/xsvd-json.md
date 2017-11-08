@@ -77,6 +77,10 @@ The format version is reflected in the `schemaVersion` property, present in the 
 
 Versions are listed in reverse chronological order.
 
+#### v0.2.3 (2017-10-27)
+
+* add `headerGuardPrefix` to `device`
+
 #### v0.2.2 (2017-10-23)
 
 * increase `schemaVersion` to 0.2.2
@@ -169,6 +173,7 @@ The device is the top-most object, and contains one or more peripherals.
 | `access` | string | Default access rights for all registers. Values: `["r","w","rw"]`. |
 | `resetMask` | string | The register bits that have a defined reset value. |
 | `resetValue` | string | Default value for all registers at RESET. |
+| `headerGuardPrefix` | string | The prefix to be used in the header guard macro. |
 | `headerTypePrefix` | string | The prefix to be used in type definitions. |
 | `headerInterruptPrefix` | string | The prefix to be used in interrupt definitions. |
 | `headerInterruptEnumPrefix` | string | The prefix to be used in the name of the interrupt enum. |
