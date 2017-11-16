@@ -19,6 +19,22 @@ TBD
 
 * [JavaScript style guide]({{ site.baseurl }}/develop/js-style-guide/)
 
+## Analytics
+
+* xpm [![npm](https://img.shields.io/npm/dw/xpm.svg)](https://www.npmjs.com/package/xpm) [![npm](https://img.shields.io/npm/dt/xpm.svg)](https://www.npmjs.com/package/xpm)
+* xmake [![npm](https://img.shields.io/npm/dw/xmake.svg)](https://www.npmjs.com/package/xmake) [![npm](https://img.shields.io/npm/dt/xmake.svg)](https://www.npmjs.com/package/xmake)
+* @gnu-mcu-eclipse/openocd  [![npm](https://img.shields.io/npm/dw/@gnu-mcu-eclipse/openocd.svg)](https://www.npmjs.com/package/@gnu-mcu-eclipse/openocd) [![npm](https://img.shields.io/npm/dt/@gnu-mcu-eclipse/openocd.svg)](https://www.npmjs.com/package/@gnu-mcu-eclipse/openocd)
+* @gnu-mcu-eclipse/riscv-none-gcc  [![npm](https://img.shields.io/npm/dw/@gnu-mcu-eclipse/riscv-none-gcc.svg)](https://www.npmjs.com/package/@gnu-mcu-eclipse/riscv-none-gcc) [![npm](https://img.shields.io/npm/dt/@gnu-mcu-eclipse/riscv-none-gcc.svg)](https://www.npmjs.com/package/@gnu-mcu-eclipse/riscv-none-gcc)
+* @micro-os-plus/startup.svg [![npm](https://img.shields.io/npm/dw/@micro-os-plus/startup.svg)](https://www.npmjs.com/package/@micro-os-plus/startup) [![npm](https://img.shields.io/npm/dt/@micro-os-plus/startup.svg)](https://www.npmjs.com/package/@micro-os-plus/startup)
+* @micro-os-plus/c-libs.svg [![npm](https://img.shields.io/npm/dw/@micro-os-plus/c-libs.svg)](https://www.npmjs.com/package/@micro-os-plus/c-libs) [![npm](https://img.shields.io/npm/dt/@micro-os-plus/c-libs.svg)](https://www.npmjs.com/package/@micro-os-plus/c-libs)
+* @micro-os-plus/cpp-libs.svg [![npm](https://img.shields.io/npm/dw/@micro-os-plus/cpp-libs.svg)](https://www.npmjs.com/package/@micro-os-plus/cpp-libs) [![npm](https://img.shields.io/npm/dt/@micro-os-plus/cpp-libs.svg)](https://www.npmjs.com/package/@micro-os-plus/cpp-libs)
+* @micro-os-plus/diag-trace.svg [![npm](https://img.shields.io/npm/dw/@micro-os-plus/diag-trace.svg)](https://www.npmjs.com/package/@micro-os-plus/diag-trace) [![npm](https://img.shields.io/npm/dt/@micro-os-plus/diag-trace.svg)](https://www.npmjs.com/package/@micro-os-plus/diag-trace)
+* @micro-os-plus/riscv-arch.svg [![npm](https://img.shields.io/npm/dw/@micro-os-plus/riscv-arch.svg)](https://www.npmjs.com/package/@micro-os-plus/riscv-arch) [![npm](https://img.shields.io/npm/dt/@micro-os-plus/riscv-arch.svg)](https://www.npmjs.com/package/@micro-os-plus/riscv-arch)
+* @sifive/templates [![npm](https://img.shields.io/npm/dw/@sifive/templates.svg)](https://www.npmjs.com/package/@sifive/templates) [![npm](https://img.shields.io/npm/dt/@sifive/templates.svg)](https://www.npmjs.com/package/@sifive/templates)
+* @sifive/devices [![npm](https://img.shields.io/npm/dw/@sifive/devices.svg)](https://www.npmjs.com/package/@sifive/devices) [![npm](https://img.shields.io/npm/dt/@sifive/devices.svg)](https://www.npmjs.com/package/@sifive/devices)
+* @sifive/hifive1-board [![npm](https://img.shields.io/npm/dw/@sifive/hifive1-board.svg)](https://www.npmjs.com/package/@sifive/hifive1-board) [![npm](https://img.shields.io/npm/dt/@sifive/hifive1-board.svg)](https://www.npmjs.com/package/@sifive/hifive1-board)
+* @sifive/arty-boards [![npm](https://img.shields.io/npm/dw/@sifive/arty-boards.svg)](https://www.npmjs.com/package/@sifive/arty-boards) [![npm](https://img.shields.io/npm/dt/@sifive/arty-boards.svg)](https://www.npmjs.com/package/@sifive/arty-boards)
+
 ## References
 
 * [eCos](http://ecos.sourceware.org/) - _The embedded configurable operating system_ by Cygnus Solutions ([Wikipedia](http://en.wikipedia.org/wiki/ECos))
