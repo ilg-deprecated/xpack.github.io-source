@@ -126,6 +126,37 @@ Differences from SVD:
 
 Initial version, a direct correspondence to the ARM SVD format. Firstly implemented by the xcdl program used by GNU ARM Eclipse QEMU.
 
+## Arrays and repetitions
+
+Although the original SVD specs treat them together, these are distinct notions.
+
+### Arrays
+
+Arrays are groups of identical objects that are addressed by a numeric index, starting as zero, as in most programming languages.
+
+An object is considered an array if it has the `arraySize` property.
+
+Only register and cluster objects can be grouped in arrays.
+
+When used to generate device peripheral headers, register arrays generate C arrays of integers and cluster arrays generate C arrays os structures. 
+
+When used to display the peripheral registers in a debugger, the recommended way to preset arrays is as a group with the object name suffixed by `[]`, and below it all array elements, with the names suffixed by the index, like `[0]`, `[1]`, etc.
+
+### Repetitions
+
+Repetitions are a shortcuts to define sequences of similar objects; instead of defining a long list of similar objects, only a generic one is defined, plus a rule how each individual one is named.
+
+An object is considered a repetition if it has the `repeatGenerator` property (and it is not an array, so the `repeatGenerator` property is ignored for arrays). 
+
+By default, the strings defined by the `repeatGenerator` are added at the end of the name; if more elaborate names must be generated, the `%s` must be used in the desired position in the object name.
+
+The typical `repeatGenerator` defines a list of comma separated strings (like `a,b,c`). For numerical values, ranges are also supported (like `0-31`).
+
+Only cluster, register and field objects can use repetitions.
+
+Both when used to generate device peripheral headers and when used to display the peripheral registers in a debugger, repetitions generate a sequence of objects, with the names in the order given by the `repeatGenerator` property.
+
+
 ## Objects
 
 The entire xsvd file is basically a hierarchy of objects, with the JSON root on top.
@@ -249,7 +280,7 @@ Each peripheral describes all registers belonging to that peripheral.
 Each peripheral has a memory block where the registers are allocated, defined as a base address and a size.
 Register addresses are specified relative to the base address of a peripheral.
 
-Multiple similar peripherals sharing a common name can be defined as repetitions using the `repeatGenerator` property; for example instead of defining `GPIOA`, `GPIOB`, `GPIOC`, use `GPIO%s` (or simply `GPIO`, since `%s` at the end is default) and define separate generators like `A,B,C` or `A-C`.
+Multiple similar peripherals sharing a common name can be defined as repetitions using the `repeatGenerator` property; for example instead of defining `GPIOA`, `GPIOB`, `GPIOC`, use `GPIO%s` (or simply `GPIO`, since `%s` at the end is default) and define separate generators like `A,B,C`.
 
 The `repeatIncrement` property specifies the address offset between two peripherals. 
 
@@ -302,9 +333,9 @@ A cluster describes a sequence of neighbouring registers within a peripheral. A 
 
 Nested clusters express hierarchical structures of registers. It is targeted at the generation of device header files to create a C-data structure within the peripheral structure instead of a flat list of registers. It is also possible to specify an array of a clusters using the `arraySize` property.
 
-Multiple similar clusters sharing a common name can be defined as repetitions using the `repeatGenerator` property. 
+Multiple identical clusters can be grouped in arrays. The size of the array is specified by the `arraySize` property. 
 
-Multiple similar clusters can also be grouped in arrays. The size of the array is specified by the `arraySize` property. 
+Multiple similar clusters sharing a common name can be defined as repetitions using the `repeatGenerator` property. 
 
 The `repeatIncrement` property specifies the offset in bytes between two clusters. If not specified, the cluster size is used.
 
@@ -363,9 +394,9 @@ The description of registers is the most important part of this file format. If 
 
 A register can represent a single value or can be subdivided into individual bit-fields of specific functionality and semantics. From a schema perspective, the property `fields` is optional, however, from a specification perspective, `fields` are mandatory when they are described in the device documentation.
 
-Multiple similar registers sharing a common name can be defined as repetitions using the `repeatGenerator` property. 
+Multiple identical registers can be grouped in arrays. The size of the array is specified by the `arraySize` property. 
 
-Multiple similar registers can also be grouped in arrays. The size of the array is specified by the `arraySize` property. 
+Multiple similar registers sharing a common name can be defined as repetitions using the `repeatGenerator` property. 
 
 The `repeatIncrement` property specifies the offset in bytes between two registers. If not specified, the register width is used.
 
@@ -423,6 +454,9 @@ The `repeatIncrement` property specifies the offset in bits between two bit-fiel
 A field may define an enumeration in order to make the display more intuitive to read.
 
 The field names `mask`, `position` and `offset` are reserved.
+
+Note: Array of fields are currently not implemented.
+
 
 | Parent |
 |:-------|
