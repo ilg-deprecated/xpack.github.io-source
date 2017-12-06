@@ -77,6 +77,11 @@ The format version is reflected in the `schemaVersion` property, present in the 
 
 Versions are listed in reverse chronological order.
 
+#### v0.2.4 (2017-12-06)
+
+* add `headerName` to differentiate from `displayName`
+* deprecate `headerIrqName` in interrupts
+
 #### v0.2.3 (2017-10-27)
 
 * add `headerGuardPrefix` to `device`
@@ -197,6 +202,7 @@ The device is the top-most object, and contains one or more peripherals.
 |:-----------|:-----|:------------|
 | `revision` | string | The silicon revision, usually in `r0p0` format. |
 | `displayName` | string | A short string to externally identify the device. Must be unique among all files. If missing, the internal name (the map key) is used. |
+| `headerName` | string | A short string to be used when referring to the device in a header file. Must be unique among all files. If missing, the `displayName` or the internal name (the map key) is used. |
 | `description` | string | A long string to describe the main features of the device. |
 | `vendor` | object | The device vendor. |
 | `busWidth` | string | The width of the maximum single data transfer supported by the bus infrastructure, in bits. This information is relevant for debuggers when accessing registers, because it might be required to issue multiple accesses for resources of a bigger size. |
@@ -294,6 +300,7 @@ To create copies of a peripheral using different names, use the `derivedFrom` pr
 |:-----------|:-----|:------------|
 | `derivedFrom` | string | The peripheral name from which to inherit properties. Subsequent properties override inherited values. |
 | `displayName` | string | A short string to externally identify the peripheral. Must be unique among the device. If missing, the internal name (the map key) is used. |
+| `headerName` | string | A short string to be used when referring to the peripheral in a header file. Must be unique among the device. If missing, the `displayName` or the internal name (the map key) is used. |
 | `description` | string | A long string to describe the peripheral. |
 | `groupName` | string | Define a name for several related peripherals; used when generating types. |
 | `baseAddress` | string | The lowest address of the memory block used by the peripheral. |
@@ -347,6 +354,7 @@ The `repeatIncrement` property specifies the offset in bytes between two cluster
 |:-----------|:-----|:------------|
 | `derivedFrom` | string | The cluster name from which to inherit properties. Subsequent properties override inherited values. |
 | `displayName` | string | A short string to externally identify the cluster. Must be unique among the parent object. If missing, the internal name (the map key) is used. For repetitions, use the placeholder `%s`, which is replaced by strings from `repeatGenerator`; if missing, `%s` will be added at the end. For arrays, the placeholder `[%s]` will be automatically added at the end. |
+| `headerName` | string | A short string to be used when referring to the cluster in a header file. Must be unique among the parent object. If missing, the `displayName` or the internal name (the map key) is used. Same rules for `%s`. |
 | `description` | string | A long string to describe the register. |
 | `addressOffset` | string | The address offset relative to the enclosing element (peripheral or cluster). |
 | `regWidth` | string | The width of the register, in bits. |
@@ -408,6 +416,7 @@ The `repeatIncrement` property specifies the offset in bytes between two registe
 |:-----------|:-----|:------------|
 | `derivedFrom` | string | The register name from which to inherit properties. Subsequent properties override inherited values. |
 | `displayName` | string | A short string to externally identify the register. Must be unique among the parent. If missing, the internal name (the map key) is used. For repetitions, use the placeholder `%s`, which is replaced by strings from `repeatGenerator`; if missing, `%s` will be added at the end. For arrays, the placeholder `[%s]` will be automatically added at the end. |
+| `headerName` | string | A short string to be used when referring to the register in a header file. Must be unique among the parent object. If missing, the `displayName` or the internal name (the map key) is used. Same rules for `%s`. |
 | `description` | string | A long string to describe the register. |
 | `addressOffset` | string | The address offset relative to the enclosing element (peripheral or cluster). |
 | `regWidth` | string | The width of the register, in bits. |
@@ -467,6 +476,7 @@ Note: Array of fields are currently not implemented.
 | parent | | A cluster object or a peripheral object |
 | `derivedFrom` | string | The field name from which to inherit properties. Subsequent properties override inherited values. |
 | `displayName` | string | A short string to externally identify the field. Must be unique among the register. If missing, the internal name (the map key) is used. For repetitions, use the placeholder `%s`, which is replaced by strings from `repeatGenerator`; if missing, `%s` will be added at the end. |
+| `headerName` | string | A short string to be used when referring to the field in a header file. Must be unique among the parent object. If missing, the `displayName` or the internal name (the map key) is used. Same rules for `%s`. |
 | `description` | string | A long string to describe the field. |
 | `bitOffset` | string | The position of the least significant bit of the field within the register. |
 | `bitWidth` | string | The bit-width of the field within the register. |
@@ -516,6 +526,7 @@ This information generates an enum in the device header file. The debugger may u
 |:-----------|:-----|:------------|
 | `derivedFrom` | string | The enumeration name from which to inherit properties. Subsequent properties override inherited values. |
 | `displayName` | string | A short string to externally identify the enumeration. Must be unique among the enumerations. If missing, the internal name (the map key) is used. |
+| `headerName` | string | A short string to be used when referring to the enumeration in a header file. Must be unique among the parent object. If missing, the `displayName` or the internal name (the map key) is used. |
 | `description` | string | A long string to describe the enumeration. |
 | `headerEnumName` | string | An alternate identifier for the enumeration section when used to generate the device header. The default is the hierarchical enumeration type in the device header file. The user is responsible for the uniqueness across the device. |
 | `values` | object | A map of enumerated values objects. The map keys are the enumeration numeric values (unsigned integers). |
@@ -560,6 +571,7 @@ An enumerated value defines a map between an unsigned integer (the map key) and 
 | Properties | Type | Description |
 |:-----------|:-----|:------------|
 | `displayName` | string | A short string to externally describe the semantics of the value. Usually displayed together with the value. |
+| `headerName` | string | A short string to be used when referring to the enumeration value in a header file. Must be unique among the parent object. If missing, the `displayName` or the internal name (the map key) is used. |
 | `description` | string | A long string to describe the value. |
 
 ### The _interrupt_ object
@@ -573,9 +585,9 @@ A peripheral can have multiple interrupts. This object allows the debugger to sh
 | Properties | Type | Description |
 |:-----------|:-----|:------------|
 | `displayName` | string | A short string to externally identify the interrupt. Must be unique among all interrupts. If missing, the internal name (the map key) is used. |
+| `headerName` | string | A short string to be used when referring to the interrupt in a header file. Must be unique among the parent object. If missing, the `displayName` or the internal name (the map key) is used. |
 | `description` | string | A long string to describe the interrupt. |
 | `value` | string | The enumeration index value associated to the interrupt. |
-| `headerIrqName` | string | The name used for the interrupt handler. |
 
 Example
 
