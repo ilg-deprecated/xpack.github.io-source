@@ -195,7 +195,7 @@ The device is the top-most object, and contains one or more peripherals.
 
 | Properties | Type | Description |
 |:-----------|:-----|:------------|
-| `revision` | string | The silican revision, usually in `r0p0` format. |
+| `revision` | string | The silicon revision, usually in `r0p0` format. |
 | `displayName` | string | A short string to externally identify the device. Must be unique among all files. If missing, the internal name (the map key) is used. |
 | `description` | string | A long string to describe the main features of the device. |
 | `vendor` | object | The device vendor. |
