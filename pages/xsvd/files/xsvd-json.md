@@ -2,7 +2,7 @@
 layout: page
 lang: en
 permalink: /xsvd/files/xsvd-json/
-title: The xsvd format 
+title: The XSVD format 
 author: Liviu Ionescu
 
 date: 2017-10-10 20:00:00 +0300
@@ -11,15 +11,15 @@ date: 2017-10-10 20:00:00 +0300
 
 ## Overview
 
-The **xsvd** format is inspired from ARM [CMSIS SVD](http://www.keil.com/cmsis/svd), which is based on XML and was influenced by [IP-XACT](https://en.wikipedia.org/wiki/IP-XACT).
+The **XSVD** format is inspired from ARM [CMSIS SVD](http://www.keil.com/cmsis/svd), which is based on XML and was influenced by [IP-XACT](https://en.wikipedia.org/wiki/IP-XACT).
 
-The xsvd content is generally similar to the SVD content, but it has a better structure, using a hierarchy of objects with properties. As such, the natural format to represent it is JSON, which is simpler and easier to parse than XML.
+The XSVD content is generally similar to the SVD content, but it has a better structure, using a hierarchy of objects with properties. As such, the natural format to represent it is JSON, which is simpler and easier to parse than XML.
 
-To help the migration from CMSIS Packs to xPacks, an automated tool was written to convert ARM SVD to xsvd.
+To help the migration from CMSIS Packs to xPacks, an automated tool was written to convert ARM SVD to XSVD.
 
 ## Purpose
 
-Contrary to the wider scope of IP-XACT, the xsvd format was intentionally kept as simple as possible, since it is currently intended only for: 
+Contrary to the wider scope of IP-XACT, the XSVD format was intentionally kept as simple as possible, since it is currently intended only for: 
 
 * allowing debuggers to display memory mapped peripherals, including separate register bit-fields
 * supporting the automated generation of device header files
@@ -31,11 +31,17 @@ Contrary to the wider scope of IP-XACT, the xsvd format was intentionally kept a
 
 As with any JSON file, the content is basically an object with several properties, represented as `"name": <value>`. The values may be strings, objects or arrays of other values.
 
-Named children objects are stored in objects (not arrays), with the names as properties (implemented as maps, with names as keys).
+### Collections
+
+Traditionally, collections are stored in JSON as arrays, which impose no restrictions on the content or uniqueness.
+
+If object names must be unique, collections of named children can be stored as objects (implemented as maps) with names as properties and children objects as values.
+
+To simplify usage, except named children, collections cannot have other properties.
 
 ### Names
 
-Since some xsvd definitions may be used to support the generation of C/C++ code files (object names may be used to compose type and macro definitions), the names must comply with ANSI C naming restrictions. In particular, they must not contain any spaces or special characters. Hyphens are allowed, but, when used to compose definitions, will be converted to underscores.
+Since some XSVD definitions may be used to support the generation of C/C++ code files (object names may be used to compose type and macro definitions), the names must comply with ANSI C naming restrictions. In particular, they must not contain any spaces or special characters. Hyphens are allowed, but, when used to compose definitions, will be converted to underscores.
 
 ### Values
 
@@ -56,80 +62,10 @@ Numeric values that may represent values with different units may have the unit 
 
 Note: currently not used.
 
-### Repeat generators
-
-The syntax used in the `repeatGenerator` property is:
-
-* a sequence of numbers, like `0,1,2` 
-* a range of numbers, like `0-31`
-* a sequence of letters, like `A,B,C`
-* a range of letters, like `A-G`.
-
-Note: currently ranges are not implemented.
 
 ### Reset masks
 
 In addition to hex values, the strings `all` and `none` can be used, with the meaning of `0xFF..FF` and `0x0`.
-
-## Revision history
-
-The format version is reflected in the `schemaVersion` property, present in the root object. The value of this property follows the semantic versioning requirements ([semver](http://semver.org)).
-
-Versions are listed in reverse chronological order.
-
-#### v0.2.4 (2017-12-06)
-
-* add `headerName` to differentiate from `displayName`
-* deprecate `headerIrqName` in interrupts
-
-#### v0.2.3 (2017-10-27)
-
-* add `headerGuardPrefix` to `device`
-
-#### v0.2.2 (2017-10-23)
-
-* increase `schemaVersion` to 0.2.2
-* add top `headerVersion`
-* add `headerInterruptPrefix` to `device`
-* add `headerInterruptEnumPrefix` to `device`
-* add `numInterrupts` to `device`
-* add `priorityBits` to `device`
-* remove unused `cpu` from `device`
-* add `cores` to `device`
-* remove `type` from `interrupt`; local interrupts are now defined per core
-
-#### v0.2.1 (2017-10-18)
-
-* increase `schemaVersion` to 0.2.1
-* rename top `version` to `contentVersion`
-* rename device `version` to `siliconVersion`
-* add `groupName` to peripheral
-* the content of `access` was changed to ["r","w","rw"]
-* `repeatIncrement` ignored for register
-* add `headerTypePrefix` to device
-* add `vendor` to device
-
-#### v0.2.0 (2017-10-11)
-
-First formal specifications defined. Used to define the SiFive devices (like the FE310-G000, the first RISC-V physical device).
-
-Differences from SVD:
-
-* explicit separate definitions for repetitions and arrays
-* simplified definitions for arrays, no explicit `[%s]` needed, added automatically
-* simplified definitions for repetitions, no explicit `%s` if at the end, added automatically
-* accept repetitions for fields
-* accept `resetValue` and `resetMask` for fields
-* the `access` property was simplified to `["r","w","rw"]`
-* use `busWidth` (instead of `<width>`)
-* use `regWidth` (instead of `<size>`)
-* use `repeatIncrement` (instead of `<dimIncrement>`)
-* use `repeatGenerator` (instead of `<dimIndex>`)
-* use `arraySize` (instead of `<dim>`)
-
-#### v0.1.0 (2016-12-14)
-
-Initial version, a direct correspondence to the ARM SVD format. Firstly implemented by the xcdl program used by GNU ARM Eclipse QEMU.
 
 ## Arrays and repetitions
 
@@ -155,16 +91,34 @@ An object is considered a repetition if it has the `repeatGenerator` property (a
 
 By default, the strings defined by the `repeatGenerator` are added at the end of the name; if more elaborate names must be generated, the `%s` must be used in the desired position in the object name.
 
-The typical `repeatGenerator` defines a list of comma separated strings (like `a,b,c`). For numerical values, ranges are also supported (like `0-31`).
+The typical `repeatGenerator` defines a list of comma separated strings (like `a,b,c` or `0,1,2`). For numerical values, ranges are also supported (like `0-31`).
 
 Only cluster, register and field objects can use repetitions.
 
 Both when used to generate device peripheral headers and when used to display the peripheral registers in a debugger, repetitions generate a sequence of objects, with the names in the order given by the `repeatGenerator` property.
 
+## Differences from SVD
+
+Although inspired from SVD, the XSVD format is slightly different, taking full advantage of the JSON specifics; as such, XSVD files should be shorter, easier to read and less error prone.
+
+* accept repetitions for fields (benefits: similar fields are easier to read)
+* has explicit separate definitions for repetitions and arrays (benefits: improved readability)
+* has simplified definitions for arrays, no explicit `[%s]` needed, added automatically (benefits: simplified definitions, improved readability)
+* has simplified definitions for repetitions, no explicit `%s` if at the end, added automatically (benefits: simplified definitions, improved readability)
+* accept `resetValue` and `resetMask` for fields (benefits: less error prone, improved readability)
+* the `access` property was simplified to `["r","w","rw"]` (benefits: improved readability)
+* use `busWidth` (instead of `<width>`) (benefits: less ambiguity)
+* use `regWidth` (instead of `<size>`) (benefits: less ambiguity)
+* use `repeatIncrement` (instead of `<dimIncrement>`) (benefits: less ambiguity)
+* use `repeatGenerator` (instead of `<dimIndex>`) (benefits: less ambiguity)
+* use `arraySize` (instead of `<dim>`) (benefits: less ambiguity)
+* use `supplier` (instead of `<vendor>`) (benefits: more generic)
+
+---
 
 ## Objects
 
-The entire xsvd file is basically a hierarchy of objects, with the JSON root on top.
+The XSVD file is a hierarchy of objects, with the JSON root on top.
 
 ### The root object
 
@@ -173,7 +127,7 @@ The entire xsvd file is basically a hierarchy of objects, with the JSON root on 
 | `schemaVersion` | string | The version is used by the parser to identify different file formats. |
 | `contentVersion` | string | The content version; increase it with each change. |
 | `headerVersion` | string | The version to be used in the generated header; it generally follows `contentVersion`, but may change if the header is regenerated with a new version of `xsvd`. |
-| `devices` | object | A map of device objects. Device names are internal IDs used to refer to the device; externally use the device `displayName`; must be unique among all files. |
+| `devices` | collection | A map of device objects. Device names are internal IDs used to refer to the device; externally use the device `displayName`; must be unique among all files. |
 | `generators` | array | Array of generator objects describing the tools that generated/modified the current file. |
 
 Example
@@ -196,7 +150,7 @@ The device is the top-most object, and contains one or more peripherals.
 
 | Parent |
 |:-------|
-| The `devices` property of the root object. |
+| The `devices` collection, a property of the root object. |
 
 | Properties | Type | Description |
 |:-----------|:-----|:------------|
@@ -204,7 +158,7 @@ The device is the top-most object, and contains one or more peripherals.
 | `displayName` | string | A short string to externally identify the device. Must be unique among all files. If missing, the internal name (the map key) is used. |
 | `headerName` | string | A short string to be used when referring to the device in a header file. Must be unique among all files. If missing, the `displayName` or the internal name (the map key) is used. |
 | `description` | string | A long string to describe the main features of the device. |
-| `vendor` | object | The device vendor. |
+| `supplier` | object | The device supplier. |
 | `busWidth` | string | The width of the maximum single data transfer supported by the bus infrastructure, in bits. This information is relevant for debuggers when accessing registers, because it might be required to issue multiple accesses for resources of a bigger size. |
 | `regWidth` | string | Default width of any register contained in the device, in bits. |
 | `access` | string | Default access rights for all registers. Values: `["r","w","rw"]`. |
@@ -216,8 +170,8 @@ The device is the top-most object, and contains one or more peripherals.
 | `headerInterruptEnumPrefix` | string | The prefix to be used in the name of the interrupt enum. |
 | `numInterrupts` | string | The total number of interrupts. Some platforms, like RISC-V start the count at 1. |
 | `priorityBits` | string | The number of bits available in the Interrupt Controller for configuring priorities. |
-| `cores` | object | A map of core objects. The keys are internal IDs used to refer to the cores. |
-| `peripherals` | object | A map of peripheral objects. The keys are internal IDs used to refer to the peripherals; externally use the `displayName`; must be unique among devices. |
+| `cores` | collection | A map of core objects. The keys are internal IDs used to refer to the cores. |
+| `peripherals` | collection | A map of peripheral objects. The keys are internal IDs used to refer to the peripherals; externally use the `displayName`; must be unique among devices. |
 
 Example
 
@@ -243,19 +197,20 @@ Example
 }
 ```
 
-### The _vendor_ object
+### The _supplier_ object
 
 | Parent |
 |:-------|
 | A **device** object. |
 
-The device vendor.
+The device supplier.
 
 | Properties | Type | Description |
 |:-----------|:-----|:------------|
-| `name` | string | The vendor short name. |
-| `id` | string | The vendor numeric id; should not change over time. |
-| `displayName` | string | A string to externally identify the vendor. |
+| `name` | string | The supplier short name; a single word that uses only legal variable characters. |
+| `id` | string | The supplier numeric id; should not change over time. |
+| `displayName` | string | A short string to externally identify the supplier. |
+| `fullName` | string | A longer string to externally identify the supplier, like official company name. |
 | `contact` | string | Contact information. |
 
 
@@ -275,12 +230,12 @@ Most of the properties are descriptive, and currently do not participate in code
 | `mpu` | string | A string that indicate whether the core is equipped with a memory protection unit (MPU). Accepted values are `true/false` or custom names, for example, for RISC-V use 'pmp'. If no MPU is present, `none` is also accepted. |
 | `mmu` | string | A string that indicate whether the core is equipped with a memory management unit (MMU). Accepted values are `true/false` or custom names, for example, for RISC-V use 'sv32/sv39/sv48'. If no MMU is present, `none` is also accepted. |
 | `numLocalInterrupts` | string | The total number of local interrupts (specific to a core). Some platforms, like RISC-V always have at least 16 interrupts. |
-| `localInterrupts` | object | A map of interrupt objects. |
+| `localInterrupts` | collection | A map of interrupt objects. |
 
 
 ### The _peripheral_ object
 
-At least one peripheral has to be defined.
+At least one peripheral must be defined.
 
 Each peripheral describes all registers belonging to that peripheral.
 Each peripheral has a memory block where the registers are allocated, defined as a base address and a size.
@@ -313,9 +268,9 @@ To create copies of a peripheral using different names, use the `derivedFrom` pr
 | `repeatGenerator` | string | A generator of strings that substitute the placeholder `%s` within the `displayName`. 
 | `groupName` | string | Define a name under which the Peripheral Registers Viewer is showing this peripheral. |
 | `headerStructName` | string | Specify the base name of C structures. The header file generator uses the peripheral `displayName` as the base name for the C structure type. If `headerStructName` is specified, then this string is used instead of the peripheral name; useful when multiple peripherals get derived and a generic type name should be used. |
-| `clusters` | object | A map of cluster objects. The keys are internal IDs used to refer to the clusters; externally use the cluster name. |
-| `registers` | object | A map of register objects. The keys are internal IDs used to refer to the registers; externally use the `displayName`. |
-| `interrupts` | object | A peripheral can have multiple associated interrupts. This entry allows the debugger to show interrupt names instead of interrupt numbers. |
+| `clusters` | collection | A map of cluster objects. The keys are internal IDs used to refer to the clusters; externally use the cluster name. |
+| `registers` | collection | A map of register objects. The keys are internal IDs used to refer to the registers; externally use the `displayName`. |
+| `interrupts` | collection | A peripheral can have multiple associated interrupts. This entry allows the debugger to show interrupt names instead of interrupt numbers. |
 
 ```json
 {
@@ -364,8 +319,8 @@ The `repeatIncrement` property specifies the offset in bytes between two cluster
 | `repeatIncrement` | string | The address increment, in bytes, between two neighbouring clusters in a repetition or an array. |
 | `repeatGenerator` | string | A generator of strings that substitute the placeholder `%s` within the `displayName`. 
 | `arraySize` | string | The size of the array of clusters. |
-| `clusters` | object | A map of cluster objects. The keys are internal IDs used to refer to the clusters; externally use the cluster name. |
-| `registers` | object | A map of register objects. The keys are internal IDs used to refer to the registers; externally use the `displayName`. |
+| `clusters` | collection | A map of cluster objects. The keys are internal IDs used to refer to the clusters; externally use the cluster name. |
+| `registers` | collection | A map of register objects. The keys are internal IDs used to refer to the registers; externally use the `displayName`. |
 
 ```json
 {
@@ -425,7 +380,7 @@ The `repeatIncrement` property specifies the offset in bytes between two registe
 | `resetValue` | string | Default value for the register at RESET. |
 | `repeatGenerator` | string | A generator of strings that substitute the placeholder `%s` within the `displayName`. 
 | `arraySize` | string | The size of the array of registers. |
-| `fields` | object | A map of field objects. The keys are internal IDs used to refer to the fields; externally use the `displayName`. |
+| `fields` | collection | A map of field objects. The keys are internal IDs used to refer to the fields; externally use the `displayName`. |
 
 ```json
 {
@@ -476,7 +431,7 @@ Note: Array of fields are currently not implemented.
 | parent | | A cluster object or a peripheral object |
 | `derivedFrom` | string | The field name from which to inherit properties. Subsequent properties override inherited values. |
 | `displayName` | string | A short string to externally identify the field. Must be unique among the register. If missing, the internal name (the map key) is used. For repetitions, use the placeholder `%s`, which is replaced by strings from `repeatGenerator`; if missing, `%s` will be added at the end. |
-| `headerName` | string | A short string to be used when referring to the field in a header file. Must be unique among the parent object. If missing, the `displayName` or the internal name (the map key) is used. Same rules for `%s`. |
+| `headerName` | string | A short string to be used when referring to the field in a header file. Must be unique among the parent object. If missing, the `displayName` or the internal name (the map key) is used. Same rules for `%s`. If empty, the header lines associated with this field will not be generated. |
 | `description` | string | A long string to describe the field. |
 | `bitOffset` | string | The position of the least significant bit of the field within the register. |
 | `bitWidth` | string | The bit-width of the field within the register. |
@@ -485,7 +440,7 @@ Note: Array of fields are currently not implemented.
 | `resetValue` | string | Default value for the field at RESET. |
 | `repeatIncrement` | string | The offset increment, in bits, between two neighbouring fields in a repetition. |
 | `repeatGenerator` | string | A generator of strings that substitute the placeholder `%s` within the `displayName`. 
-| `enumeration` | object | A map with a single property. The key is the enumeration name. |
+| `enumerations` | collection | A map of enumeration objects. The key is the enumeration name. In the current version, only the first object is used, all the other are ignored. |
 
 Example
 
@@ -520,7 +475,7 @@ This information generates an enum in the device header file. The debugger may u
 
 | Parent |
 |:-------|
-| The `enumeration` property of a **field** object. |
+| The `enumerations` property of a **field** object. |
 
 | Properties | Type | Description |
 |:-----------|:-----|:------------|
@@ -529,14 +484,16 @@ This information generates an enum in the device header file. The debugger may u
 | `headerName` | string | A short string to be used when referring to the enumeration in a header file. Must be unique among the parent object. If missing, the `displayName` or the internal name (the map key) is used. |
 | `description` | string | A long string to describe the enumeration. |
 | `headerEnumName` | string | An alternate identifier for the enumeration section when used to generate the device header. The default is the hierarchical enumeration type in the device header file. The user is responsible for the uniqueness across the device. |
-| `values` | object | A map of enumerated values objects. The map keys are the enumeration numeric values (unsigned integers). |
+| `values` | collection | A map of enumerated values objects. The map keys are the enumeration numeric values (unsigned integers). |
+
+Note: `derivedFrom` is not yet implemented.
 
 Example
 
 ```json
 {
     "...": "...",
-    "enumeration": {
+    "enumerations": {
         "clk-src-enum": {
             "displayName": "Clock source",
             "description": "Values to select the clock source.",
@@ -598,8 +555,7 @@ Example
         "uart0": {
             "description": "UART0 global interrupt",
             "value": "3",
-            "type": "global",
-            "headerIrqName": "riscv_interrupt_global_handle_uart0"
+            "headerName": "riscv_interrupt_global_handle_uart0"
         }
     }
     "...": "..."
@@ -608,7 +564,7 @@ Example
 
 ### The _generator_ object
 
-This is an informative object, used to trace which tools generated or modified the xsvd file.
+This is an informative object, used to trace which tools generated or modified the XSVD file.
 
 | Parent |
 |:-------|
@@ -644,6 +600,55 @@ Example
 }
 ```
 
+## Revision history
+
+The format version is reflected in the `schemaVersion` property, present in the root object. The value of this property follows the semantic versioning requirements ([semver](http://semver.org)).
+
+Versions are listed in reverse chronological order.
+
+#### v0.2.4 (2017-12-06)
+
+* use `enumerations` (plural); deprecate `enumeration`
+* add `headerName` to differentiate from `displayName`; empty means _do not generate header line_
+* deprecate `headerIrqName` in interrupts
+* use `supplier` instead of `vendor` (rename object)
+* add `fullName` to the supplier object
+
+#### v0.2.3 (2017-10-27)
+
+* add `headerGuardPrefix` to `device`
+
+#### v0.2.2 (2017-10-23)
+
+* increase `schemaVersion` to 0.2.2
+* add top `headerVersion`
+* add `headerInterruptPrefix` to `device`
+* add `headerInterruptEnumPrefix` to `device`
+* add `numInterrupts` to `device`
+* add `priorityBits` to `device`
+* remove unused `cpu` from `device`
+* add `cores` to `device`
+* remove `type` from `interrupt`; local interrupts are now defined per core
+
+#### v0.2.1 (2017-10-18)
+
+* increase `schemaVersion` to 0.2.1
+* rename top `version` to `contentVersion`
+* rename device `version` to `siliconVersion`
+* add `groupName` to peripheral
+* the content of `access` was changed to ["r","w","rw"]
+* `repeatIncrement` ignored for register
+* add `headerTypePrefix` to device
+* add `vendor` to device
+
+#### v0.2.0 (2017-10-11)
+
+First formal specifications defined. Used to define the SiFive devices (like the FE310-G000, the first RISC-V physical device).
+
+
+#### v0.1.0 (2016-12-14)
+
+Initial version, a direct correspondence to the ARM SVD format. Firstly implemented by the xcdl program used by GNU ARM Eclipse QEMU.
 
 ## TODO
 
