@@ -17,10 +17,12 @@
 #### xcdl
 
 * [Overview]({{ site.baseurl }}/xcdl/)
+* [File formats]({{ site.baseurl }}/xcdl/files/)
 
 #### xsvd
 
 * [Overview]({{ site.baseurl }}/xsvd/)
+* [File formats]({{ site.baseurl }}/xsvd/files/)
 
 #### Developer
 
