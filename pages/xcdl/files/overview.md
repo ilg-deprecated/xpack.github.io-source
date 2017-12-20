@@ -10,3 +10,5 @@ date: 2017-10-11 14:42:00 +0300
 ---
 
 TBD
+
+* [xcdl.json]({{ site.baseurl }}/xcdl/files/xcdl-json/)

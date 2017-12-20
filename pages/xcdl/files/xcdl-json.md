@@ -11,15 +11,7 @@ date: 2017-10-10 19:59:00 +0300
 
 ## Overview
 
-The **XCDL** format was originally inspired from eCos CDL (Configuration Definition Language), and later was extended to include definitions from CMSIS PDSC.
-
-## Purpose
-
-The **XCDL** files are used to
-
-* define the device features
-* define the board features
-* define the software components and configurations (TBD)
+The **XCDL** format describes metadata used to define various objects, from boards and devices, to software components.
 
 ## File conventions
 
@@ -53,7 +45,7 @@ The XCDL file is a hierarchy of objects, with the JSON root on top.
 | Properties | Type | Description |
 |:-----------|:-----|:------------|
 | `schemaVersion` | string | The version is used by the parser to identify different file formats. |
-| `mcus` | collection | A map of mcu objects. MCU names are internal IDs used to refer to the MCU; externally use the device `displayName`; must be unique among all files. |
+| `mcus` | object | A parent for all MCU related definitions. |
 
 Example
 
@@ -89,6 +81,7 @@ The MCU is the top-most object, and usually contains one MCU family.
 | `displayName` | string | A short string to externally identify the device family. Must be unique among all files. If missing, the internal name (the map key) is used. |
 | `description` | string | A long string to describe the main features of the device family. |
 | `supplier` | object | The device supplier. |
+| `subFamilies` | collection | A map of sub-family objects. The keys are internal IDs used to refer to the objects. (optional) |
 | `devices` | collection | A map of device objects. The keys are internal IDs used to refer to the devices. |
 
 ### The _supplier_ object
@@ -107,13 +100,25 @@ The device supplier.
 | `fullName` | string | A longer string to externally identify the supplier, like official company name. |
 | `contact` | string | Contact information. |
 
+### The _subFamily_ object
+
+| Parent |
+|:-------|
+| The `subFamilies` property of a **family** object. |
+
+| Properties | Type | Description |
+|:-----------|:-----|:------------|
+| `displayName` | string | A short string to externally identify the device sub-family. Must be unique among all files related to a supplier. If missing, the internal name (the map key) is used. |
+| `description` | string | A long string to describe the main features of the device sub-family. |
+| `devices` | collection | A map of device objects. The keys are internal IDs used to refer to the devices. |
+
 ### The _device_ object
 
 The device is the basic object, and correspond to a single implementation of a MCU which has unique characteristics from the software point of view.
 
 | Parent |
 |:-------|
-| The `devices` property of a **family** object. |
+| The `devices` property of a **family** or **subFamily** object. |
 
 | Properties | Type | Description |
 |:-----------|:-----|:------------|
