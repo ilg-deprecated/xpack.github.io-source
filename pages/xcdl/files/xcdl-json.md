@@ -94,11 +94,8 @@ The device supplier.
 
 | Properties | Type | Description |
 |:-----------|:-----|:------------|
-| `name` | string | The supplier short name; a single word that uses only legal variable characters. |
 | `id` | string | The supplier numeric id; should not change over time. |
 | `displayName` | string | A short string to externally identify the supplier. |
-| `fullName` | string | A longer string to externally identify the supplier, like official company name. |
-| `contact` | string | Contact information. |
 
 ### The _subFamily_ object
 
@@ -125,10 +122,24 @@ The device is the basic object, and correspond to a single implementation of a M
 | `displayName` | string | A short string to externally identify the device. Must be unique among all files related to a supplier. If missing, the internal name (the map key) is used. |
 | `description` | string | A long string to describe the main features of the device. |
 | `url` | string | A full URL to a page describing the device. |
-| `compile` | object | TBD |
+| `compiler` | object | compiler specific definitions. |
 | `features` | object | TBD |
 | `memoryRegions` | collection | TBD |
 | `debug` | object | TBD |
+
+### The _compiler_ object
+
+An object with definitions useful for the compiler.
+
+| Parent |
+|:-------|
+| A **device** or **board** object. |
+
+| Properties | Type | Description |
+|:-----------|:-----|:------------|
+| `headers` | string[] | headers to include the board/device definitions. |
+| `defines` | string[] | preprocessor definitions for the board/device. |
+
 
 ### The _debug_ object
 
@@ -152,6 +163,12 @@ TBD
 The format version is reflected in the `schemaVersion` property, present in the root object. The value of this property follows the semantic versioning requirements ([semver](http://semver.org)).
 
 Versions are listed in reverse chronological order.
+
+#### v0.2.0 (2017-12-27)
+
+* simplify `supplier`, keep only `id` and `displayName`
+* rename `compile` to `compiler`
+* rename `macros` to `defines`
 
 #### v0.1.0 (2017-12-08)
 
