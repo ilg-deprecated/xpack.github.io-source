@@ -295,6 +295,51 @@ These are really objects, available in all modules. (see Node.js [Globals](https
   - `console.error('msg')` - writes 'Error: msg' to stderr
   - `console.assert(value, 'msg')`
 
+## The Spread syntax
+
+According to [JavaScript ES6— The Spread Syntax (…)](https://codeburst.io/javascript-es6-the-spread-syntax-f5c35525f754):
+
+* The spread syntax is simply three dots: `...`
+* It allows an iterable to expand in places where 0+ arguments are expected.
+
+Useful cases:
+
+* inserting Arrays
+
+```js
+var mid = [3, 4];
+var arr = [1, 2, ...mid, 5, 6];
+
+console.log(arr);
+```
+
+* Math
+
+```js
+var arr = [2, 4, 8, 6, 0];
+var max = Math.max(...arr);
+
+console.log(max);
+```
+
+* Copy an Array
+
+```js
+var arr = ['a', 'b', 'c'];
+var arr2 = [...arr];
+
+console.log(arr2);
+```
+
+* String to Array
+
+```js
+var str = "hello";
+var chars = [...str];
+
+console.log(chars);
+```
+
 ## The xPack project preferences
 
 ### Prefer ES6 solutions
