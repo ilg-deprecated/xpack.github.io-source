@@ -404,6 +404,19 @@ Use `for ... of`.
 ```javascript
 let iterable = [10, 20, 30];
 
+for (const value of iterable) {
+  console.log(value);
+}
+// 10
+// 20
+// 30
+```
+
+If the value needs to be changed, use `let`:
+
+```javascript
+let iterable = [10, 20, 30];
+
 for (let value of iterable) {
   value += 1;
   console.log(value);
@@ -426,6 +439,13 @@ If the order is not important, iterate over the keys or the entries:
 var anObj = { 100: 'a', 2: 'b', 7: 'c' };
 console.log(Object.keys(anObj)); // ['2', '7', '100']
 console.log(Object.entries(anObj)); // [ ['2', 'b'], ['7', 'c'], ['100', 'a'] ]
+
+for (const [key, value] of Object.entries(anObj)) {
+  console.log(key, value)
+}
+// 2 b
+// 7 c
+// 100 a
 ```
 
 ## Make node exports/imports look like ES6 exports/imports
