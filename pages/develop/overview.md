@@ -73,7 +73,7 @@ xPacks
 ## Distribution management systems
 
 * [OpenEmbedded](http://www.openembedded.org/wiki/Main_Page) - the build framework for embedded Linux (with more detail in the Yocto documentation)
-* [BitBake User Manual](http://www.yoctoproject.org/docs/current/bitbake-user-manual/bitbake-user-manual.html) ([PDF](http://www.yoctoproject.org/docs/current/bitbake-user-manual/bitbake-user-manual.pdf))
+* [BitBake User Manual](http://www.yoctoproject.org/docs/)
 * [Gentoo Development Guide](https://devmanual.gentoo.org/index.html)
 * [MacPorts Guide](https://guide.macports.org/)
 * [Arch PKGBUILD](https://wiki.archlinux.org/index.php/PKGBUILD)
