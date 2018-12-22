@@ -15,11 +15,341 @@ So, for the xPack JavaScript source files to be consistent, the first requiremen
 After this, the main recommendations are:
 
 - use the **ECMAScript 6** specifications (ES 6),
-- if the module does something reasonably complex, the module public functions **must be asyncronous**, 
+- if the module does something reasonably complex, the module public functions **must be asynchronous**, 
 - asynchronous functions must **use promises** (and definitely **avoid callbacks**), 
 - **reentrancy** should be seriously considered (avoid module-global variables).
 
 <div style="clear: both;"></div>
+
+## The xPack project preferences
+
+### Prefer ES6 solutions
+
+This is Rule no. 1, that overrides all other rules. Definitely **avoid using old style code**.
+
+### Use classes as much as possible
+
+Even if the new syntax is mostly syntactic sugar, and internally things 
+behave as strangely as they did in the first JavaScript versions,
+still **use the new class syntax** at large; it is much cleaner and
+improves readability.
+
+### Use promises instead of callbacks
+
+Really. No callbacks at all. Use promises. Actually use `async`/`await`.
+
+### Use async/await for asynchronous calls
+
+Once `async`/`await` became standard, and the V8 engine added support
+for them, there is no reason for not using `async`/`await`.
+
+**Wrap old legacy code using callbacks into promises** and execute
+them with `await`.
+
+### Use static class members for sharing
+
+Modules are singletons; using module variables is like using static
+variables in a multi-threaded environment; they may provide a way
+of sharing common data between multiple instances of objects created
+inside the same module, but if not handled correctly this may have
+unexpected results. 
+
+The general recommendation is to **make the modules reentrant**.
+In practical terms, **do not use module-global variables** at all;
+make the module **export a class, and create instances of it**
+whenever needed; for sharing data between instances,
+**use static class members**.
+
+### Do not restrict export to a single function or class
+
+Bad style:
+
+```js
+module.exports = function () {
+	return /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g;
+};
+...
+const func = require('name')
+```
+
+Apart from being unnamed, returning a single function prevents future
+extensions, for example exporting a second function from the same module
+would mandate all modules that use the first function via `require()` to
+be updated to `require().func1`, which may cause many headaches to developers.
+
+```js
+module.exports.func1 = function () {
+	return /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g;
+};
+module.exports.func2 = function () { ... }
+...
+const func = require('name').func1
+```
+
+The recommendation is to always return functions or preferably classes
+as properties of the `module.exports` object, and get them individually by name.
+
+### Prefer static classes to group methods
+
+Prepare your module to export multiple functions; group them (by
+functionality) either below a parent object, or, even better, in
+classes with static members.
+
+The main advantage of this scheme is that adding new exports will
+only change the interface incrementally, minimising the risk to
+break backward compatibility.
+
+### Use the spread operator
+
+Th spread operator expands an iterable into its member objects. It also works 
+with arrays and objects
+
+* Create array copies
+
+```js
+const arr1 = [1, 2 3]
+const arr2 = [...arr1]
+```
+
+* Concatenate arrays
+
+```js
+const arr1 = [1, 2 3]
+const arr2 = [4, 5 6]
+const arr3 = [...arr1, ...arr2]
+```
+
+* Enumerate object properties
+  
+```js
+class Base {
+  constructor (args) {
+    super({
+      name: 'tree',
+      parent: null,
+      ...args
+    })
+  // ...
+}
+```
+
+### Iterate over an Array
+
+For very simple loops, (one-two lines), use `forEach()`:
+
+```js
+const iterable = [10, 20, 30];
+
+iterable.forEach((value) => {
+  console.log(value)
+})
+```
+
+Debug note: Visual Studio Code is able to step into the lambda function.
+
+For more complex loops, use `for ... of`.
+
+```js
+let iterable = [10, 20, 30]
+
+for (const value of iterable) {
+  console.log(value)
+}
+// 10
+// 20
+// 30
+```
+
+If the value needs to be changed, use `let`:
+
+```js
+let iterable = [10, 20, 30];
+
+for (let value of iterable) {
+  value += 1
+  console.log(value)
+}
+// 11
+// 21
+// 31
+```
+
+**Do not** use `for ... in` since it iterates over the enumerable
+properties, which include inherited properties (use `.hasOwnProperty()`
+to filter them out).
+
+### Iterate over the keys of an Object
+
+If the order is not important, iterate over the keys or the entries:
+
+```js
+// array like object with random key ordering
+var anObj = { 100: 'a', 2: 'b', 7: 'c' };
+console.log(Object.keys(anObj)); // ['2', '7', '100']
+console.log(Object.entries(anObj)); // [ ['2', 'b'], ['7', 'c'], ['100', 'a'] ]
+
+for (const [key, value] of Object.entries(anObj)) {
+  console.log(key, value)
+}
+// 2 b
+// 7 c
+// 100 a
+```
+
+### Check if object is Array
+
+```js
+Array.isArray([1, 2, 3]);  // true
+```
+
+[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/isArray)
+
+### Check if object is String
+
+```js
+isString (x) {
+  return Object.prototype.toString.call(x) === '[object String]'
+}
+```
+
+### Check if object
+
+```js
+isObject (x) {
+  return typeof x === 'object' && !Array.isArray(x)
+}
+```
+
+Please note that `null` is also an object, and everything created with 
+`new` is also an object, including:
+
+- `new Boolean(true)`
+- `new Number(1)`
+- `new String('abc')`
+
+[MDN](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/typeof)
+
+### Use Map to guarantee the order of the values
+
+Although maps can be conveniently implemented with regular objects,
+the specs do not guarantee the insert order to be preserved.
+
+If the order is important, or if the object need to store other 
+properties too, use a `Map`. 
+
+### Make node exports/imports look like ES6 exports/imports
+
+Assuming classes are preferred, the EC6 syntax for export/import would look like:
+
+```js
+export class WscriptAvoider { ... }
+...
+import { WscriptAvoider } from 'wscript-avoider.js'
+```
+
+So, to stay close to this syntax, the recommendation is to preserve the
+original `module.exports` object, and add properties to it, preferably
+classes, even if they have only static members.
+
+To import them, the syntax uses the explicit classs name:
+
+```js
+const WscriptAvoider = require('wscript-avoider').WscriptAvoider
+WscriptAvoider.quitIfWscript(appName)
+```
+
+Cases like `import { WscriptAvoider as Xyz } from 'wscript-avoider.js'` would
+be naturally represented as:
+
+```js
+const Xyz = require('wscript-avoider').WscriptAvoider
+Xyz.quitIfWscript(appName)
+```
+
+In case the class is not static, instantiate it as usual.
+
+### Call exactly the class method
+
+If a method of a class is overridden, calling it from the base class
+actually calls the derived method (run-time polymorphism).
+
+To ensure the local function, use the function prototype:
+
+```js
+class Base {
+  constructor () {
+    Base.prototype.clear()
+  }
+
+  clear () {
+    // ...
+  }
+}
+```
+
+### Pack function arguments as objects
+
+For functions with more than 1-2 arguments, pack them in an object:
+
+```js
+class Base {
+  f1 (args) {
+    assert(args, 'There must be args.')
+
+    assert(args.param1)
+    console.log(args.param1)
+  }
+
+  f2 () {
+    f1 ({
+      param1: value1,
+      param2: value2
+    })
+  }
+}
+```
+
+### Use copy/move constructors & support methods
+
+Make the constructor accept a `from` parameter, to use it as a source
+when creating the object.
+
+The default behaviour is to make a copy of the original object.
+
+Add a `doMoveAll: true` to instruct a move operation; be sure original
+references are cleared (set to undefined).
+
+Alternatively use `copyFrom(from)` and possibly `appendFrom(from)`.
+
+Use a `clear()` method to clear the object content (it might be 
+useful during tests).
+
+### Use a separate location for private variables
+
+To reduce clutter, group the private variables below a `private_` object.
+
+No need to end the name of the variables with `_`.
+
+### Use a separate location for cached variables
+
+If the object uses local cached objects, group them below a `cache_` object. 
+Initialise it to an empty object in the constructor an in the `clear()` method.
+
+No need to end the name of the variables with `_`.
+
+```js
+class Base {
+  constructor () {
+    this.cache_ = {}
+  }
+
+  clear () {
+    this.cache_ = {}
+  }
+}
+```
+
+---
 
 ## From _Understanding ECMAScript 6_
 
@@ -33,7 +363,7 @@ Use `const` by default, and only use `let` when you know a variable’s value ne
 
 Use default parameters.
 
-```javascript
+```js
 const makeRequest = function (url, timeout = 2000, callback = function() {}) {
   // the rest of the function
 }
@@ -45,7 +375,7 @@ const add = function (first, second = getValue(first)) {
 
 Use _rest_ parameters.
 
-```javascript
+```js
 const pick = function (object, ...keys) {
   let result = Object.create(null)
   for (let i = 0, len = keys.length; i < len; i++) {
@@ -57,7 +387,7 @@ const pick = function (object, ...keys) {
 
 The `Function` constructor.
 
-```javascript
+```js
 var add = new Function("first", 'second = first',
                  'return first + second')
 console.log(add(1, 1))     // 2
@@ -67,7 +397,7 @@ console.log(add(1))        // 2
 JavaScript has two different internal-only methods for functions: `[[Call]]` and `[[Construct]]`. When a function is called without new, the `[[Call]]` method is executed, which executes the body of the function as it appears in the code. When a function is called with new, that’s when the `[[Construct]]` method
 is called. The `[[Construct]]` method is responsible for creating a new object, called the instance, and then executing the function body with this set to the instance. Functions that have a `[[Construct]]` method are called constructors.
 
-```javascript
+```js
 const Person = function (name) {
   if (this instanceof Person) {
     this.name = name
@@ -81,7 +411,7 @@ var notAPerson = Person.call(person, 'Michael')    // works!
 
 Block-level functions
 
-```javascript
+```js
 'use strict'
 
 if (true) {
@@ -103,7 +433,7 @@ Arrow functions are functions defined with a new syntax that uses an arrow (`=>`
 - **No arguments object** Because arrow functions have no arguments binding, you must rely on named and rest parameters to access function arguments.
 - **No duplicate named parameters** Arrow functions cannot have duplicate named parameters in strict or non-strict mode, as opposed to non-arrow functions, which cannot have duplicate named parameters only in strict mode.
 
-```javascript
+```js
 let sum = (num1, num2) => num1 + num2
 // effectively equivalent to:
 let sum = function(num1, num2) {
@@ -133,7 +463,7 @@ Indentation is **two spaces**
 
 Curly braces belong on the same line
 
-```javascript
+```js
 const f = function () {
   while (foo) {
     bar()
@@ -145,7 +475,7 @@ const f = function () {
 
 Don't use semicolons, except when required; for example to prevent the expression from being interpreted as a function call or property access, respectively.
 
-```javascript
+```js
 ;(x || y).doSomething()
 ;[a, b, c].forEach(doSomething)
 ```
@@ -154,7 +484,7 @@ Don't use semicolons, except when required; for example to prevent the expressio
 
 Put the **comma at the start** of the next line, directly below the token that starts the list
 
-```javascript
+```js
 const magicWords = [ 'abracadabra'
                  , 'gesundheit'
                  , 'ventrilo'
@@ -172,7 +502,7 @@ const magicWords = [ 'abracadabra'
 
 Use single quotes for strings except to avoid escaping
 
-```javascript
+```js
 const ok = 'String contains "double" quotes'
 const alsoOk = "String contains 'single' quotes or apostrophe"
 const paramOk = `Back quotes string with ${parameter}`
@@ -230,7 +560,7 @@ Leaving status at the module level can be either a blessing or a curse, dependin
 
 To make some functions and objects visible outside the module, you can add them as properties to the special `modules.exports` object:
 
-```javascript
+```js
 const PI = Math.PI
 module.exports.area = (r) => PI * r * r
 module.exports.circumference = (r) => 2 * PI * r
@@ -238,7 +568,7 @@ module.exports.circumference = (r) => 2 * PI * r
 
 Although you can rewrite the `module.export` to be a single function (such as a constructor), still prefer to add them as properties to the object and refer to them explicitly in the `require()` line:
 
-```javascript
+```js
 const square = require('./square.js').square
 const mySquare = square(2)
 console.log(`The area of my square is ${mySquare.area()}`)
@@ -256,7 +586,7 @@ If you want to export a complete object in one assignment instead of building it
 
 When a file is run directly from Node.js, `require.main` is set to its module. That means that you can determine whether a file has been run directly by testing
 
-```javascript
+```js
 require.main === module
 ```
 
@@ -264,7 +594,7 @@ require.main === module
 
 Before a module's code is executed, Node.js will wrap it with a function wrapper that looks like the following:
 
-```javascript
+```js
 module = ... // an object for the current module
 module.export = {} // an empty object
 exports = module.export // a reference to the exports; avoid using it
@@ -340,141 +670,6 @@ var chars = [...str];
 console.log(chars);
 ```
 
-## The xPack project preferences
-
-### Prefer ES6 solutions
-
-This is Rule no. 1, that overrides all other rules. Definitely **avoid using old style code**.
-
-### Use classes as much as possible
-
-Even if the new syntax is mostly syntactic sugar, and internally things behave as strangely as they did in the first JavaScript versions, still **use the new class syntax** at large; it is much cleaner and improves readability.
-
-### Use promises instead of callbacks
-
-Really. No callbacks at all. Use promises.
-
-### Use async/await for asynchronous calls
-
-Once `async`/`await` became standard, and the V8 engine added support for them, there is no reason for not using `async`/`await`.
-
-**Wrap old legacy code using callbacks into promises** and execute them with `await`.
-
-### Use static class members for sharing
-
-Modules are singletons; using module variables is like using static variables in a multi-threaded environment; they may provide a way of sharing common data between multiple instances of objects created inside the same module, but if not handled correctly this may have unexpected results. 
-
-The general recommendation is to **make the modules reentrant**. In practical terms, **do not use module-global variables** at all; make the module **export a class, and create instances of it** whenever needed; for sharing data between instances, **use static class members**.
-
-### Do not restrict export to a single function or class
-
-Bad style:
-
-```javascript
-module.exports = function () {
-	return /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g;
-};
-...
-const func = require('name')
-```
-
-Apart from being unnamed, returning a single function prevents future extensions, for example exporting a second function from the same module would mandate all modules that use the first function via `require()` to be updated to `require().func1`, which may cause many headaches to developers.
-
-```javascript
-module.exports.func1 = function () {
-	return /[\u001b\u009b][[()#;?]*(?:[0-9]{1,4}(?:;[0-9]{0,4})*)?[0-9A-ORZcf-nqry=><]/g;
-};
-module.exports.func2 = function () { ... }
-...
-const func = require('name').func1
-```
-
-The recommendation is to always return functions or preferably classes as properties of the `module.exports` object, and get them individually by name.
-
-### Prefer static classes to group methods
-
-Prepare your module to export multiple functions; group them (by functionality) either below a parent object, or, even better, in classes with static members.
-
-The main advantage of this scheme is that adding new exports will only change the interface incrementally, minimising the risk to break backward compatibility.
-
-### Iterate over an Array
-
-Use `for ... of`.
-
-```javascript
-let iterable = [10, 20, 30];
-
-for (const value of iterable) {
-  console.log(value);
-}
-// 10
-// 20
-// 30
-```
-
-If the value needs to be changed, use `let`:
-
-```javascript
-let iterable = [10, 20, 30];
-
-for (let value of iterable) {
-  value += 1;
-  console.log(value);
-}
-// 11
-// 21
-// 31
-```
-
-As alternate solution, you can use `.forEach()`, but there is no way to break a loop and it is more difficult to single step
-
-**Do not** use `for ... in` since it iterates over the enumerable properties, which include inherited properties (use `.hasOwnProperty()` to filter them out).
-
-### Iterate over the keys of an Object
-
-If the order is not important, iterate over the keys or the entries:
-
-```javascript
-// array like object with random key ordering
-var anObj = { 100: 'a', 2: 'b', 7: 'c' };
-console.log(Object.keys(anObj)); // ['2', '7', '100']
-console.log(Object.entries(anObj)); // [ ['2', 'b'], ['7', 'c'], ['100', 'a'] ]
-
-for (const [key, value] of Object.entries(anObj)) {
-  console.log(key, value)
-}
-// 2 b
-// 7 c
-// 100 a
-```
-
-## Make node exports/imports look like ES6 exports/imports
-
-Assuming classes are preferred, the EC6 syntax for export/import would look like:
-
-```javascript
-export class WscriptAvoider { ... }
-...
-import { WscriptAvoider } from 'wscript-avoider.js'
-```
-
-So, to stay close to this syntax, the recommendation is to preserve the original `module.exports` object, and add properties to it, preferably classes, even if they have only static members.
-
-To import them, the syntax uses the explicit classs name:
-
-```javascript
-const WscriptAvoider = require('wscript-avoider').WscriptAvoider
-WscriptAvoider.quitIfWscript(appName)
-```
-
-Cases like `import { WscriptAvoider as Xyz } from 'wscript-avoider.js'` would be naturally represented as:
-
-```javascript
-const Xyz = require('wscript-avoider').WscriptAvoider
-Xyz.quitIfWscript(appName)
-```
-
-In case the class is not static, instantiate it as usual.
 
 ## Links to other style guides
 
