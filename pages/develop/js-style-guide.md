@@ -349,6 +349,25 @@ class Base {
 }
 ```
 
+### Self
+
+When a reference to the static methods or variables is needed, to make 
+things explicit, prefer to define a `Self` variable.
+
+From within regular methods, use:
+
+```js
+    // Explicit uppercase, to be obvious when a static property/method is used.
+    const Self = this.constructor
+```
+
+From within other static methods, use:
+
+```js
+    // Explicit uppercase, to be obvious when a static property/method is used.
+    const Self = this
+```
+
 ---
 
 ## From _Understanding ECMAScript 6_
