@@ -174,6 +174,17 @@ for (let value of iterable) {
 // 31
 ```
 
+If the last value of the variable is needed outside the loop, define the 
+variable before the loop:
+
+```js
+let value
+for (value of iterable) {
+  // ...
+}
+console.log(value)
+```
+
 **Do not** use `for ... in` since it iterates over the enumerable
 properties, which include inherited properties (use `.hasOwnProperty()`
 to filter them out).
@@ -287,23 +298,26 @@ class Base {
 }
 ```
 
-### Pack function arguments as objects
+### Pack function parameters as objects
 
-For functions with more than 1-2 arguments, pack them in an object:
+For functions with more than 1 parameter, pack them in an object:
 
 ```js
 class Base {
-  f1 (args) {
-    assert(args, 'There must be args.')
+  /**
+   * @param {Object} params The generic parameters object.
+   */
+  f1 (params) {
+    assert(params, 'There must be params.')
 
-    assert(args.param1)
-    console.log(args.param1)
+    assert(params.name)
+    console.log(args.name)
   }
 
   f2 () {
     f1 ({
-      param1: value1,
-      param2: value2
+      name: value1,
+      type: value2
     })
   }
 }
