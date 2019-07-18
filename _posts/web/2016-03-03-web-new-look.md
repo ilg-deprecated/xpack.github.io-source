@@ -25,7 +25,7 @@ The current project repositories are:
 
 Since [GitHub Pages](https://pages.github.com) is the GitHub solution for providing documentation sites, and this service makes the sites available in the `github.io` domain, it was considered acceptable to migrate the MediaWiki sites to GitHub Pages.
 
-GitHub Pages uses [Jekyll](http://jekyllrb.com) to generate static web sites, and the most convenient input format for Jekyll is [markdown](http://daringfireball.net/projects/markdown/syntax), so the migration involved conversion from MediaWiki internal representation, to markdown. Given the differences, this conversion was not easy, and was done partly with scripts, partly manually. Similarly for MediaWiki, although the conversion from the MediaWiki format to markdown was easier. (Note: the migration is still work in progress).
+GitHub Pages use [Jekyll](http://jekyllrb.com) to generate static web sites, and the most convenient input format for Jekyll is [markdown](http://daringfireball.net/projects/markdown/syntax), so the migration involved conversion from MediaWiki internal representation, to markdown. Given the differences, this conversion was not easy, and was done partly with scripts, partly manually. Similarly for MediaWiki, although the conversion from the MediaWiki format to markdown was easier. (Note: the migration is still work in progress).
 
 The web site has two dedicated projects:
 
