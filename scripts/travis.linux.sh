@@ -117,27 +117,32 @@ function do_script() {
     return 0
   fi
 
-  # Check if any changes.
-  cd "${site}"
-  is_dirty=`git status --porcelain`
-  # Should detect new, modified, removed files.
-  if [ -z "${is_dirty}" ]
+  if false
   then
-    echo "No changes to the output on this push; skip deploy."
-    return 0
+
+    # Check if any changes.
+    cd "${site}"
+    is_dirty=`git status --porcelain`
+    # Should detect new, modified, removed files.
+    if [ -z "${is_dirty}" ]
+    then
+      echo "No changes to the output on this push; skip deploy."
+      return 0
+    fi
+
+    # Commit the changes.
+    cd "${site}"
+    # do_run git diff
+
+    do_run git add --all .
+    do_run git commit -m "Travis CI Deploy of ${TRAVIS_COMMIT}" 
+
+    echo "Deploy to GitHub pages..."
+
+    # Must be quiet and have no output, to not reveal the key.
+    git push --force --quiet "https://${GITHUB_TOKEN}@github.com/${GITHUB_DEST_REPO}" master > /dev/null 2>&1
+
   fi
-
-  # Commit the changes.
-  cd "${site}"
-  # do_run git diff
-
-  do_run git add --all .
-  do_run git commit -m "Travis CI Deploy of ${TRAVIS_COMMIT}" 
-
-  echo "Deploy to GitHub pages..."
-
-  # Must be quiet and have no output, to not reveal the key.
-  git push --force --quiet "https://${GITHUB_TOKEN}@github.com/${GITHUB_DEST_REPO}" master > /dev/null 2>&1
 
   return 0
 }
