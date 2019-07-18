@@ -28,6 +28,6 @@ layout: default
 {% for item in page.categories %}{% if add_separator %}, {% else %}{% assign add_separator = true%}{% endif %}<strong>{{ item | downcase }}</strong>{% endfor %}{% if page.tags.size > 0 %} and tagged
 {% assign add_separator = false %}
 {% for item in page.tags %}{% if add_separator %}, {% else %}{% assign add_separator = true %}{% endif %}<strong>{{ item | downcase }}</strong>{% endfor %}{% endif %}.{% endif %}</p>
-{% if page.last_modified_at %}<p>Last modified on {{ page.last_modified_at | date: '%c %Z' }}.</p>{% endif %}
+{% if page.last_modified_at %}<p>Page authored by {{ page.author }}; last modified on {{ page.last_modified_at | date: '%c %Z' }}.</p>{% endif %}
 {% include layouts/share-buttons.html %}
 </div>
