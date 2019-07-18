@@ -59,7 +59,7 @@ More text.
 
 Again.
 
-Centered image:
+Centred image:
 
 <div style="text-align:center">
 <img alt="Feed" src="{{ site.baseurl }}/assets/images/feed-20.png" />
